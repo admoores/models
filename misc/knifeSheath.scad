@@ -10,9 +10,9 @@ centerToHole = 16.6;
 holeLength = 12.3;
 holeWidth = 6.5;
 wallThickness = 2.25;
-centerToOpening = fullLength - lengthFromOrigin;
+centerToTop = fullLength - lengthFromOrigin;
 gapDepth = 23;
-centerToGap = centerToOpening - gapDepth;
+centerToGap = centerToTop - gapDepth;
 
 difference() {
   intersection() {
@@ -44,10 +44,24 @@ difference() {
   }
   intersection() {
     translate([(arcRadius - thickestWidth / 2), 0, wallThickness]) {
-      cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - (2 * wallThickness), center=false);
+      cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - wallThickness, center=false);
     }
     translate([-1 * (arcRadius - thickestWidth / 2), 0, wallThickness]) {
-      cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - (2 * wallThickness), center=false);
+      cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - wallThickness, center=false);
+    }
+  }
+  translate([(thickestWidth / -2) + 4, centerToTop - 2.5, -1]) {
+    difference() {
+      translate([-5,0,0]) {
+        cube([5, 5, fullThickness + 2]);
+      }
+      cylinder(h=fullThickness + 2, r=2.5, center=false);
+    }
+  }
+  translate([(thickestWidth / 2) - 4, centerToTop - 2.5, -1]) {
+    difference() {
+      cube([5, 5, fullThickness + 2]);
+      cylinder(h=fullThickness + 2, r=2.5, center=false);
     }
   }
 }
