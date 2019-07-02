@@ -14,54 +14,108 @@ centerToTop = fullLength - lengthFromOrigin;
 gapDepth = 23;
 centerToGap = centerToTop - gapDepth;
 
-difference() {
-  intersection() {
-    translate([(arcRadius - thickestWidth / 2), 0, 0]) {
-      cylinder(h=fullThickness, r=arcRadius, center=false);
-    }
-    translate([-1 * (arcRadius - thickestWidth / 2), 0, 0]) {
-      cylinder(h=fullThickness, r=arcRadius, center=false);
-    }
-    translate([(-2 * fullThickness),(lengthFromOrigin * -1),0]) {
-      cube([thickestWidth, fullLength, fullThickness]);
-    }
-  }
-  translate([0, (lengthFromOrigin * -1) + 7, 0]) {
-    difference() {
-      translate([-2.5, -10, -1]) {
-        cube([5, 10, fullThickness + 2]);
+union() {
+  difference() {
+    intersection() {
+      translate([(arcRadius - thickestWidth / 2), 0, 0]) {
+        cylinder(h=fullThickness, r=arcRadius, center=false);
       }
-      translate([0, 0, -2]) {
-        cylinder(h=fullThickness + 4, r=2.5, center=false);
+      translate([-1 * (arcRadius - thickestWidth / 2), 0, 0]) {
+        cylinder(h=fullThickness, r=arcRadius, center=false);
+      }
+      translate([(-2 * fullThickness),(lengthFromOrigin * -1),0]) {
+        cube([thickestWidth, fullLength, fullThickness]);
       }
     }
-  }
-  translate([holeLength / -2, centerToHole, -1]) {
-    cube([holeLength, holeWidth, fullThickness + 2]);
-  }
-  translate([-25, centerToGap, wallThickness]) {
-    cube([50, gapDepth + 1, (fullThickness - 2*wallThickness)]);
-  }
-  intersection() {
-    translate([(arcRadius - thickestWidth / 2), 0, wallThickness]) {
-      cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - wallThickness, center=false);
+    translate([0, (lengthFromOrigin * -1) + 7, 0]) {
+      difference() {
+        translate([-2.5, -10, -1]) {
+          cube([5, 10, fullThickness + 2]);
+        }
+        translate([0, 0, -2]) {
+          cylinder(h=fullThickness + 4, r=2.5, center=false);
+        }
+      }
     }
-    translate([-1 * (arcRadius - thickestWidth / 2), 0, wallThickness]) {
-      cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - wallThickness, center=false);
+    translate([holeLength / -2, centerToHole, -1]) {
+      cube([holeLength, holeWidth, fullThickness + 2]);
     }
-  }
-  translate([(thickestWidth / -2) + 4, centerToTop - 2.5, -1]) {
-    difference() {
-      translate([-5,0,0]) {
+    translate([-25, centerToGap, wallThickness]) {
+      cube([50, gapDepth + 1, (fullThickness - 2*wallThickness)]);
+    }
+    intersection() {
+      translate([(arcRadius - thickestWidth / 2), 0, wallThickness]) {
+        cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - wallThickness, center=false);
+      }
+      translate([-1 * (arcRadius - thickestWidth / 2), 0, wallThickness]) {
+        cylinder(h=fullThickness - (2 * wallThickness), r=arcRadius - wallThickness, center=false);
+      }
+    }
+    translate([(thickestWidth / -2) + 4, centerToTop - 2.5, -1]) {
+      difference() {
+        translate([-5,0,0]) {
+          cube([5, 5, fullThickness + 2]);
+        }
+        cylinder(h=fullThickness + 2, r=2.5, center=false);
+      }
+    }
+    translate([(thickestWidth / 2) - 4, centerToTop - 2.5, -1]) {
+      difference() {
         cube([5, 5, fullThickness + 2]);
+        cylinder(h=fullThickness + 2, r=2.5, center=false);
       }
-      cylinder(h=fullThickness + 2, r=2.5, center=false);
     }
   }
-  translate([(thickestWidth / 2) - 4, centerToTop - 2.5, -1]) {
+
+  // Belt Clip
+  clipLength = 20; // Relative to Y axis
+
+  translate([-10, 10 - clipLength, fullThickness]) {
     difference() {
-      cube([5, 5, fullThickness + 2]);
-      cylinder(h=fullThickness + 2, r=2.5, center=false);
+      cube([20, clipLength, fullThickness - wallThickness]);
+      translate([-1, -4.5, 0]) {
+        intersection() {
+          cube([22, clipLength + 2, 4.5]);
+          translate([0, clipLength - 3, 2.25]) {
+            rotate([0, 90, 0]) {
+              cylinder(h=25, r=2.5, center=false);
+            }
+          }
+        }
+      }
+      translate([-1, fullThickness/-2, 0]) {
+          cube([22, clipLength - 3, fullThickness/2]);
+      }
+      translate([-2.5, 3.5, (fullThickness  + wallThickness) / 2]) {
+        difference() {
+          translate([0, -5, -2.5]) {
+            cube([25, 5, 5]);
+          }
+          rotate([0, 90, 0]) {
+            cylinder(h=25, r=1.25, center=false);
+          }
+        }
+      }
+      translate([-2.5, clipLength - wallThickness, wallThickness * 2]) {
+        difference() {
+          cube([25, 2.5, 2.5]);
+          rotate([0, 90, 0]) {
+            cylinder(h=25, r=2.5, center=false);
+          }
+        }
+      }
+    }
+    translate([0, clipLength + 2.5, wallThickness]) {
+      difference() {
+        translate([0, -2.5, -2.5]) {
+          cube([20, 2.5, 2.5]);
+        }
+        translate([-2.5, 0, 0]) {
+          rotate([0, 90, 0]) {
+            cylinder(h=25, r=2.5, center=false);
+          }
+        }
+      }
     }
   }
 }
