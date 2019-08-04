@@ -30,11 +30,11 @@ difference() {
   union() {
     translate([bracketTabLength + railIndexDepth, bracketWidth / 2, bracketHeight / 2]) rotate([0, -90, 0]) flatScrewHole(tol(headRadius, -1), tol(shaftRadius, -1), bracketThickness + railIndexDepth, bracketThickness / 2);
     translate([(bracketTabLength - bracketThickness) / 2, bracketWidth / 2, 0]) chamferedScrewHole(countersinkDiam / 2, screwHoleDiam / 2, bracketThickness, bracketThickness / 2);
-    #translate([1, bracketWidth, bracketThickness - 1]) rotate([90, -90, 0]) fillet(1, bracketWidth);
-    #translate([1, bracketWidth, 1]) rotate([90, 180, 0]) fillet(1, bracketWidth);
-    #translate([bracketTabLength - 1, bracketWidth, 1]) rotate([90, 90, 0]) fillet(1, bracketWidth);
-    #translate([bracketTabLength - 1, bracketWidth, bracketHeight - 1]) rotate([90, 0, 0]) fillet(1, bracketWidth);
-    #translate([bracketTabLength - bracketThickness + 1, bracketWidth, bracketHeight - 1]) rotate([90, -90, 0]) fillet(1, bracketWidth);
+    translate([1, bracketWidth + .1, bracketThickness - 1]) rotate([90, -90, 0]) fillet(1, bracketWidth + .2);
+    translate([1, bracketWidth + .1, 1]) rotate([90, 180, 0]) fillet(1, bracketWidth + .2);
+    translate([bracketTabLength - 1, bracketWidth + .1, 1]) rotate([90, 90, 0]) fillet(1, bracketWidth + .2);
+    translate([bracketTabLength - 1, bracketWidth + .1, bracketHeight - 1]) rotate([90, 0, 0]) fillet(1, bracketWidth + .2);
+    translate([bracketTabLength - bracketThickness + 1, bracketWidth + .1, bracketHeight - 1]) rotate([90, -90, 0]) fillet(1, bracketWidth + .2);
   }
 }
 
