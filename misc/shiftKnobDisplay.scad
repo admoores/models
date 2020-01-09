@@ -10,26 +10,6 @@ batteryWidth = 28;
 batteryHeight = 19;
 batteryDepth = 50;
 
-// difference() {
-//   union() {
-//     cube([l, w, h], center=true);
-//     translate([0, 20, 15]) difference() {
-//       rotate([0, 90, 0]) cylinder(r = 25, h = 40, center=true);
-//       translate([0, -12.5, 12.5]) rotate([30, 0, 0]) cube([42, 60, 26], center=true);
-//     }
-//     translate([0, 25, 20]) rotate([30, 0, 0]) cylinder(r = 12, h = 40);
-//   }
-//   union() {
-//     translate([0, -w/2, 5]) rotate([45, 0, 0]) cube([l + 2, h * 2, h], center=true);
-//     translate([0, 10, -wallThickness * 2]) cube([l - 2*wallThickness, w - 35, h], center=true);
-//     translate([l / 2 - wallThickness - 1, 0, 0]) rotate([90, 0, 90]) linear_extrude(wallThickness + 2) circle(r = switchRad);
-//     translate([12.5, 35, 0]) rotate([30, 0, 0]) cylinder(r = 1.5, h = 100);
-//     translate([-12.5, 35, 0]) rotate([30, 0, 0]) cylinder(r = 1.5, h = 100);
-//     translate([20, -20, h/2 + wallThickness]) rotate([0, 0, -45]) cube([5, 200, 5], center=true);
-//     translate([25, -25, h/2 + wallThickness]) rotate([0, 0, -45]) cube([5, 200, 5], center=true);
-//     translate([30, -30, h/2 + wallThickness]) rotate([0, 0, -45]) cube([5, 200, 5], center=true);
-//   }
-// }
 difference() {
   union() {
     difference() {
