@@ -6,8 +6,8 @@ w = 120;
 h = 30;
 wallThickness = 2;
 switchRad = 10;
-batteryWidth = 28;
-batteryHeight = 19;
+batteryWidth = 28.5;
+batteryHeight = 19.5;
 batteryDepth = 50;
 
 difference() {
@@ -26,18 +26,18 @@ difference() {
       rotate([0, 90, 0]) cylinder(r = 25, h = 40, center=true);
       translate([0, 12.5, 12.5]) rotate([-30, 0, 0]) cube([42, 60, 26], center=true);
     }
-    translate([0, -30, h + 15]) rotate([-30, 0, 0]) cylinder(r = 6, h = 45, center = true);
+    translate([0, -30, h + 15]) rotate([-30, 0, 0]) cylinder(r = 7, h = 45, center = true);
   }
   translate([0, -h / 2, (h / 2) - (wallThickness * 2)]) cube([l - wallThickness * 2, w - h - 15, h], center=true);
-  translate([-l / 2, 0, h / 2]) rotate([0, 90, 0]) cylinder(r = switchRad, h = 25, center=true);
-  translate([-6, -30, h + 15]) rotate([-30, 0, 0]) cylinder(r = 1.5, h = 100, center=true);
-  translate([6, -30, h + 15]) rotate([-30, 0, 0]) cylinder(r = 1.5, h = 100, center=true);
+  translate([-l / 2, 0, h / 2 - wallThickness / 2]) rotate([0, 90, 0]) cylinder(r = switchRad, h = 25, center=true);
+  translate([-8, -30, h + 15]) rotate([-30, 0, 0]) cylinder(r = 1.5, h = 75, center=true);
+  translate([8, -30, h + 15]) rotate([-30, 0, 0]) cylinder(r = 1.5, h = 75, center=true);
 }
 
-translate([50, (w - h - 15)/2 - (h/2) - batteryWidth / 2, h - batteryHeight / 2 - wallThickness * 2]) rotate([0, 0, 90]) difference() {
-  cube([batteryWidth, batteryDepth / 2, batteryHeight], center=true);
-  translate([wallThickness, 0, wallThickness]) cube([batteryWidth - wallThickness, batteryDepth / 2 + 2, batteryHeight - wallThickness], center=true);
-}
+// translate([55, (w - h - 15)/2 - (h/2) - batteryWidth / 2, h - batteryHeight / 2 - wallThickness * 2]) rotate([0, 0, 90]) difference() {
+//   cube([batteryWidth + wallThickness, batteryDepth - 15, batteryHeight + wallThickness], center=true);
+//   translate([wallThickness, 0, wallThickness]) cube([batteryWidth, batteryDepth + 2, batteryHeight], center=true);
+// }
 
 
 
