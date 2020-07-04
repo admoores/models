@@ -3,14 +3,14 @@ $fs=0.05; // default minimum facet size is now 0.05 mm
 tolerance = .1;
 
 tabWidth = tol(2.25);
-totalLen = tol(22.5);
-slotGap = tol(2.25);
+slotGap = tol(2.4, -1);
 slotDepth = tol(4);
-spacerWidth = tol(8.5);
+spacerWidth = tol(5);
 spacerThickness = tol(10);
 detentWidth = tol(1);
-detentGap = tol(2);
-totalThickness = 5;
+detentGap = tol(1.6, -1);
+totalThickness = 10;
+totalLen = (2 * slotDepth) + (2 * slotGap) + spacerThickness;
 
 
 linear_extrude(totalThickness) for (i = [0, 1]) mirror([i, 0, 0]) {
