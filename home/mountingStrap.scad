@@ -1,8 +1,8 @@
 $fa=4; // default minimum facet angle is now 0.5
 $fs=0.05; // default minimum facet size is now 0.05 mm
 
-width = 163;
-depth = 66;
+width = 76;
+depth = 25.5;
 
 wallThickness = 3.2;
 strapThickness = 10;
@@ -24,8 +24,8 @@ difference() {
     translate([width + wallThickness * 2 - .01 + tabLen, depth + wallThickness, strapThickness / 2]) rotate([90, 0, 0]) cylinder(r = strapThickness / 2, h = wallThickness);
   }
 
-  #translate([-tabLen, depth + wallThickness * 2, strapThickness / 2]) rotate([90, 0, 0]) chamferedScrewHole(countersinkDiam / 2, screwHoleDiam / 2, wallThickness * 2, wallThickness / 2);
-  #translate([width + 2 * wallThickness + tabLen, depth + wallThickness * 2, strapThickness / 2]) rotate([90, 0, 0]) chamferedScrewHole(countersinkDiam / 2, screwHoleDiam / 2, wallThickness * 2, wallThickness / 2);
+  translate([-tabLen, depth + wallThickness * 2, strapThickness / 2]) rotate([90, 0, 0]) chamferedScrewHole(countersinkDiam / 2, screwHoleDiam / 2, wallThickness * 2, wallThickness / 2);
+  translate([width + 2 * wallThickness + tabLen, depth + wallThickness * 2, strapThickness / 2]) rotate([90, 0, 0]) chamferedScrewHole(countersinkDiam / 2, screwHoleDiam / 2, wallThickness * 2, wallThickness / 2);
 }
 
 module chamferedScrewHole(rh, rs, d, ds, t = .1) {
