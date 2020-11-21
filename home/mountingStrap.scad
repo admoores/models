@@ -1,11 +1,11 @@
 $fa=4; // default minimum facet angle is now 0.5
 $fs=0.05; // default minimum facet size is now 0.05 mm
 
-width = 215;
-depth = 25.5;
+width = 225;
+depth = 32;
 
 wallThickness = 3.2;
-strapThickness = 20;
+strapThickness = 15;
 
 screwHoleDiam = 4.75;
 countersinkDiam = 9;

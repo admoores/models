@@ -22,8 +22,8 @@ difference() {
     translate([0, 0, -.05]) cylinder(r = 12, h = 4.1); 
   }
 
-  translate([10, -4, -.01]) cube([10, 8, 1.5]);
-  translate([-20, -4, -.01]) cube([10, 8, 1.5]);
+  // translate([10, -4, -.01]) cube([10, 8, 1.5]);
+  // translate([-20, -4, -.01]) cube([10, 8, 1.5]);
 
-  #cube([10.1, 10.1, 24], center=true);
+  cube([10.1, 10.1, 24], center=true);
 }
