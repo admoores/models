@@ -68,39 +68,40 @@ union() {
   }
 
   // Belt Clip
-  clipLength = 20; // Relative to Y axis
+  clipLength = 15; // Relative to Y axis
+  clipWidth = 35; // Relative to X axis
 
-  translate([-10, 10 - clipLength, fullThickness]) {
+  translate([(clipWidth / -2), 10 - clipLength, fullThickness]) {
     difference() {
-      cube([20, clipLength, fullThickness - wallThickness]);
+      cube([clipWidth, clipLength, fullThickness - wallThickness]);
       translate([-1, -4.5, 0]) {
         intersection() {
-          cube([22, clipLength + 2, 4.5]);
+          cube([clipWidth + 2, clipLength + 2, 4.5]);
           translate([0, clipLength - 3, 2.25]) {
             rotate([0, 90, 0]) {
-              cylinder(h=25, r=2.5, center=false);
+              #cylinder(h=clipWidth + 2, r=2.5, center=false);
             }
           }
         }
       }
       translate([-1, fullThickness/-2, 0]) {
-          cube([22, clipLength - 3, fullThickness/2]);
+          cube([clipWidth + 2, clipLength - 3, fullThickness/2]);
       }
-      translate([-2.5, 3.5, (fullThickness  + wallThickness) / 2]) {
+      translate([-1, 3.5, (fullThickness  + wallThickness) / 2]) {
         difference() {
           translate([0, -5, -2.5]) {
-            cube([25, 5, 5]);
+            cube([clipWidth + 2, 5, 5]);
           }
           rotate([0, 90, 0]) {
-            cylinder(h=25, r=1.25, center=false);
+            cylinder(h=clipWidth + 2, r=1.25, center=false);
           }
         }
       }
-      translate([-2.5, clipLength - wallThickness, wallThickness * 2]) {
+      translate([-1, clipLength - wallThickness, wallThickness * 2]) {
         difference() {
-          cube([25, 2.5, 2.5]);
+          cube([clipWidth + 2, 2.5, 2.5]);
           rotate([0, 90, 0]) {
-            cylinder(h=25, r=2.5, center=false);
+            cylinder(h=clipWidth + 2, r=2.5, center=false);
           }
         }
       }
@@ -108,11 +109,11 @@ union() {
     translate([0, clipLength + 2.5, wallThickness]) {
       difference() {
         translate([0, -2.5, -2.5]) {
-          cube([20, 2.5, 2.5]);
+          cube([clipWidth, 2.5, 2.5]);
         }
-        translate([-2.5, 0, 0]) {
+        translate([-1, 0, 0]) {
           rotate([0, 90, 0]) {
-            cylinder(h=25, r=2.5, center=false);
+            cylinder(h=clipWidth + 2, r=2.5, center=false);
           }
         }
       }
