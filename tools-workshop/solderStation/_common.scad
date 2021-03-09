@@ -19,7 +19,7 @@ wallThickness = 5;
 
 totalHeight = 75;
 
-totalWidth = 225;
+totalWidth = 235;
 totalLen = solderSuckerWidth + handleLen + wallThickness * 3;
 
 spongeHolderWidth = 12.5;
