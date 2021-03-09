@@ -70,6 +70,7 @@ union() {
   // Belt Clip
   clipLength = 15; // Relative to Y axis
   clipWidth = 35; // Relative to X axis
+  clipStrutThickness = 5; // Relative to Y axis
 
   translate([(clipWidth / -2), 10 - clipLength, fullThickness]) {
     difference() {
@@ -77,14 +78,14 @@ union() {
       translate([-1, -4.5, 0]) {
         intersection() {
           cube([clipWidth + 2, clipLength + 2, 4.5]);
-          translate([0, clipLength - 3, 2.25]) {
+          translate([0, wallThickness + clipStrutThickness - (10-clipLength) - 2.5, 2.25]) {
             rotate([0, 90, 0]) {
-              #cylinder(h=clipWidth + 2, r=2.5, center=false);
+              cylinder(h=clipWidth + 2, r=2.5, center=false);
             }
           }
         }
       }
-      translate([-1, fullThickness/-2, 0]) {
+      translate([-1, -wallThickness - clipStrutThickness, 0]) {
           cube([clipWidth + 2, clipLength - 3, fullThickness/2]);
       }
       translate([-1, 3.5, (fullThickness  + wallThickness) / 2]) {
