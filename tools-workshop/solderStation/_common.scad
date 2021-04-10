@@ -41,3 +41,7 @@ solderSuckerLen = totalWidth - (holderWidth + chargerHeight + wallThickness * 4)
 
 powerBrickSide = 41;
 powerBrickLen = 76;
+powerBrickPlugRad = 10;
+
+m2ThreadRad = 1;
+m2ThreadDepth = 25;

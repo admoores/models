@@ -10,11 +10,19 @@ difference() {
     translate([solderSuckerLen + wallThickness * 2 + holderWidth / 2, holderLen / 2 + wallThickness, -holderWidth / 2]) rotate([90, 0, 0]) cylinderSlot(holderWidth / 2, holderLen);
     translate([solderSuckerLen + wallThickness * 2 + holderWidth / 2, holderLen / 3 + wallThickness, -(holderWidth / 2) - (holderBaseLen / 2 * sin(45))]) rotate([45, 0, 0]) cylinder(r = holderBaseWidth / 2, h = holderBaseLen * 2, center=true);
     // translate([totalWidth - wallThickness * 2 - holderWidth - spongeHolderWidth, wallThickness, -spongeHolderHeight + .01]) cube([spongeHolderWidth, spongeHolderLen, spongeHolderHeight]);
-
     translate([wallThickness, -.01, - totalHeight + wallThickness]) cube([handleWidth + 2 * tipWidth + 2 * wallThickness, totalLen - wallThickness, totalHeight - wallThickness * 2 - handleWidth * 1.5]);
-    translate([totalWidth - wallThickness - powerBrickSide, -.01, -totalHeight + wallThickness]) cube([powerBrickSide, powerBrickLen + .01 + wallThickness * 2, powerBrickSide]); 
-    translate([totalWidth - wallThickness - powerBrickSide - wallThickness * 2, -.01, -totalHeight + wallThickness]) cube([powerBrickSide + wallThickness * 2, wallThickness * 2, powerBrickSide + wallThickness * 2]); 
+    
 
+    // Power Brick Area
+    translate([totalWidth - wallThickness * 2 - powerBrickSide, totalLen - powerBrickLen - wallThickness + .01, -totalHeight + wallThickness * 2]) cube([powerBrickSide, powerBrickLen + .01 + wallThickness, powerBrickSide]); 
+    translate([totalWidth - powerBrickSide - wallThickness * 3, totalLen - wallThickness + .01, -totalHeight + wallThickness]) cube([powerBrickSide + wallThickness * 2, wallThickness, totalHeight]); 
+    translate([totalWidth - powerBrickSide - wallThickness * 2.5, totalLen - (m2ThreadDepth / 2 + wallThickness - .01), -totalHeight + wallThickness * 1.5]) rotate([90, 0, 0]) cylinder(r = m2ThreadRad, h = m2ThreadDepth, center = true);
+    translate([totalWidth - powerBrickSide - wallThickness * 2.5, totalLen - (m2ThreadDepth / 2 + wallThickness - .01), -totalHeight + wallThickness * 2.5 + powerBrickSide]) rotate([90, 0, 0]) cylinder(r = m2ThreadRad, h = m2ThreadDepth, center = true);
+    translate([totalWidth - wallThickness * 1.5, totalLen - (m2ThreadDepth / 2 + wallThickness - .01), -totalHeight + wallThickness * 2.5 + powerBrickSide]) rotate([90, 0, 0]) cylinder(r = m2ThreadRad, h = m2ThreadDepth, center = true);
+    translate([totalWidth - wallThickness * 1.5, totalLen - (m2ThreadDepth / 2 + wallThickness - .01), -totalHeight + wallThickness * 1.5]) rotate([90, 0, 0]) cylinder(r = m2ThreadRad, h = m2ThreadDepth, center = true);
+    translate([totalWidth - wallThickness * 2 - powerBrickSide / 2, 0, -totalHeight  + (wallThickness * 2 + powerBrickSide / 2)]) rotate([90, 0, 0]) cylinder(r = powerBrickPlugRad, h = totalLen + .01, center = true);
+
+    // Center Area
     translate([handleWidth + tipWidth * 2 + wallThickness * 4, wallThickness, -middleZDim + .01]) cube([middleXDim, middleYDim, middleZDim]);
 
     // translate([totalWidth - wallThickness * 3 - holderWidth - spongeHolderWidth - helpingHandHoleRad, wallThickness + helpingHandHoleRad, -helpingHandHoleDepth + .01]) cylinder(r = helpingHandHoleRad, h = helpingHandHoleDepth);
