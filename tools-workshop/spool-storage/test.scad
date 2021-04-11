@@ -1,29 +1,39 @@
 include <_common.scad>;
 
-// intersection() {
-//   difference() {
-//     cylinder(r = outerRad, h = 1, center = true);
-//     cylinder(r = innerRad * 2, h = 2, center = true);
-//     translate([outerRad - screwHoleXDistance, screwHoleYDistance, 0]) cylinder(r = m3TapRad, h = 3, center = true);
-//     translate([0, 0, -1]) cube([1, outerRad + 1, height + 1]);
-//     translate([outerRad - screwHoleYDistance, screwHoleYDistance, -1.5]) rotate([0, 0, -90]) difference() {
-//       cube([screwHoleYDistance, screwHoleYDistance, height + 3]);
-//       translate([0, 0, -.5]) cylinder(r = screwHoleYDistance, h = height + 3);
-//     }
-//   }
-//   translate([0, 0, -5]) cube([100, 100, 10]);
-// }
+partialHeight = wallThickness;
 
-// cylinder(r = 10, h = .9);
-// cylinder(r = 3, h = height);
-// translate([0, 0, height]) sphere(r = detentRad);
+intersection() {
+  difference() {
+    cylinder(r = outerRad, h = partialHeight);
+    translate([0, 0, -1]) cylinder(r = innerRad * 2.2, h = partialHeight + 2);
+    translate([outerRad - screwHoleXDistance, screwHoleYDistance, -1]) cylinder(r = m3TapRad, h = partialHeight + 2);
+    translate([-.01, 0, -.5]) cube([1, outerRad + 1, partialHeight + 1]);
+    translate([outerRad - screwHoleYDistance, screwHoleYDistance - .01, -1.5]) rotate([0, 0, -90]) difference() {
+      cube([screwHoleYDistance, screwHoleYDistance, partialHeight + 3]);
+      translate([0, 0, -.5]) cylinder(r = screwHoleYDistance, h = partialHeight + 3);
+    }
+    translate([0, 0, .01]) difference() {
+      intersection() {
+        difference() {
+          cylinder(r = outerRad - wallThickness, h = partialHeight);
+          translate([0, 0, -1]) cylinder(r = innerRad + wallThickness, h = partialHeight + 2);
+          translate([wallThickness -.01, 0, -.5]) cube([1, outerRad + 1, partialHeight + 1]);
+          // translate([wallThickness, outerRad - wallThickness, partialHeight / 2]) sphere(r = fingerHoleRad + wallThickness);
+        }
+        translate([wallThickness, wallThickness, wallThickness]) cube([100, 100, partialHeight]);
+      }
+      translate([outerRad - screwHoleYDistance - wallThickness + .01, screwHoleYDistance + wallThickness - .01, -1.5]) rotate([0, 0, -90]) difference() {
+        cube([screwHoleYDistance, screwHoleYDistance, partialHeight + 3]);
+        translate([0, 0, -.5]) cylinder(r = screwHoleYDistance, h = partialHeight + 4);
+      }
+      translate([outerRad - screwHoleXDistance, screwHoleYDistance, -1]) cylinder(r = m3TapRad * 5, h = partialHeight + 2);
+      translate([screwHoleYDistance, outerRad - screwHoleXDistance, -1]) cylinder(r = m3TapRad * 5, h = partialHeight + 2);
+    }
 
-difference() {
-  cube([5, 61.5, 1]);
-  translate([.5, 30, .5]) rotate([0, 0, -90]) linear_extrude(1) text(text = "61.5", size = 4);
+    // translate([wallThickness, outerRad - wallThickness, partialHeight / 2]) sphere(r = fingerHoleRad);
+    // translate([screwHoleYDistance, outerRad - screwHoleXDistance, 0]) sphere(r = detentRad + .2);
+  }
+  translate([0, 0, -1]) cube([100, 100, partialHeight + 2]);
 }
 
-translate([10, 0, 0]) difference() {
-  cube([5, 62, 1]);
-  translate([.5, 30, .5]) rotate([0, 0, -90]) linear_extrude(1) text(text = "62", size = 4);
-}
+translate([screwHoleYDistance, outerRad - screwHoleXDistance, partialHeight]) sphere(r = detentRad);

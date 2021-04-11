@@ -8,7 +8,7 @@ height = 61.5;
 
 m3TapRad = 1.3;
 screwHoleXDistance = 4;
-screwHoleYDistance = 6;
+screwHoleYDistance = 8.25;
 
 detentRad = 3.3/2;
 
