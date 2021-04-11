@@ -16,6 +16,7 @@ intersection() {
           cylinder(r = outerRad - wallThickness, h = height);
           translate([0, 0, -1]) cylinder(r = innerRad + wallThickness, h = height + 2);
           translate([wallThickness -.01, 0, -.5]) cube([1, outerRad + 1, height + 1]);
+          translate([wallThickness, outerRad - wallThickness, height / 2]) sphere(r = fingerHoleRad + wallThickness);
         }
         translate([wallThickness, wallThickness, wallThickness]) cube([100, 100, height]);
       }
@@ -27,7 +28,7 @@ intersection() {
       translate([screwHoleYDistance, outerRad - screwHoleXDistance, -1]) cylinder(r = m3TapRad * 5, h = height + 2);
     }
 
-    translate([0, outerRad, height / 2]) sphere(r = fingerHoleRad);
+    translate([wallThickness, outerRad - wallThickness, height / 2]) sphere(r = fingerHoleRad);
   }
   translate([0, 0, -1]) cube([100, 100, height + 2]);
 }

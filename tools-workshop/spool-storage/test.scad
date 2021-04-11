@@ -14,6 +14,16 @@ include <_common.scad>;
 //   translate([0, 0, -5]) cube([100, 100, 10]);
 // }
 
-cylinder(r = 10, h = .9);
-cylinder(r = 3, h = height);
-translate([0, 0, height]) sphere(r = detentRad);
+// cylinder(r = 10, h = .9);
+// cylinder(r = 3, h = height);
+// translate([0, 0, height]) sphere(r = detentRad);
+
+difference() {
+  cube([5, 61.5, 1]);
+  translate([.5, 30, .5]) rotate([0, 0, -90]) linear_extrude(1) text(text = "61.5", size = 4);
+}
+
+translate([10, 0, 0]) difference() {
+  cube([5, 62, 1]);
+  translate([.5, 30, .5]) rotate([0, 0, -90]) linear_extrude(1) text(text = "62", size = 4);
+}
