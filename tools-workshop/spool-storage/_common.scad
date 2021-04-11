@@ -9,3 +9,9 @@ height = 62;
 m3TapRad = 1.3;
 screwHoleXDistance = 4;
 screwHoleYDistance = 6.5;
+
+detentRad = 1.5;
+
+wallThickness = 1.2;
+
+fingerHoleRad = 7.5;
