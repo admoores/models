@@ -15,3 +15,8 @@ detentRad = 3.3/2;
 wallThickness = 1.2;
 
 fingerHoleRad = 10;
+
+holeRad = 55.25/2;
+holeRadOffset = .05;
+
+dowelRad = 12.25 / 2;
