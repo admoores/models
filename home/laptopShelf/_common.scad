@@ -10,7 +10,7 @@ m3ScrewHole = 1.375;
 m3ScrewThruHole = 2;
 m3ScrewHead = 3.25;
 
-laptopThickness = 16.2;
+laptopThickness = 19.2;
 laptopGap = 1;
 
 bracketHeight = 45;
