@@ -9,5 +9,5 @@ wallThickness = 3.2;
 
 difference() {
   cube([width, length, height]);
-  // translate([wallThickness, wallThickness, -.1]) cube([width - wallThickness * 2, length - wallThickness * 2, height + .2]);
+  translate([wallThickness, wallThickness, -.1]) cube([width - wallThickness * 2, length - wallThickness * 2, height + .2]);
 }

@@ -3,9 +3,9 @@ $fs=0.05; // default minimum facet size is now 0.05 mm
 
 // **NOTE** Width should be less than length (for the image to orient correctly)
 
-width = 100;
-length = 200;
-height = 5;
+width = 200;
+length = 150;
+height = 30;
 wallThickness = 2.4;
 
 if (width > length) {
@@ -30,11 +30,11 @@ module tray(width, length, height, wallThickness, logoRotate = 90) {
       #translate([width / 2, length / 2, wallThickness / 2]) resize([width * .75, width * .75]) rotate([0, 0, logoRotate]) translate([-50, -50]) linear_extrude(wallThickness / 2 + .01) import("../personal/LogoExtrude.dxf", layer="final");
     }
 
-    fifthWidth = (width - height / 2) / 5;
-    fifthLength = (length - height / 2) / 5;
+    fifthWidth = (width - height / 2) / 3;
+    fifthLength = (length - height / 2) / 3;
     translate([height / 4, height / 4, 0]) {
-      for(x = [0:fifthWidth:fifthWidth*4]) {
-        for (y = [0:fifthLength:fifthLength*4]) {
+      for(x = [0:fifthWidth:fifthWidth*2]) {
+        for (y = [0:fifthLength:fifthLength*2]) {
           translate([x, y, 0]) hull(){
             cube([fifthWidth, fifthLength, 0.01]);
             translate([wallThickness, wallThickness, -wallThickness]) cube([(fifthWidth) - (wallThickness*2), (fifthLength) - (wallThickness*2), 0.01]);
