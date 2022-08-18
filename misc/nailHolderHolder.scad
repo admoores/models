@@ -2,8 +2,9 @@ $fa=4; // default minimum facet angle is now 0.5
 $fs=0.05; // default minimum facet size is now 0.05 mm
 
 difference() {
-  cylinder(r = 50, h=15);
-  for (i=[0:36:360]) {
-    rotate([0, 25, i]) translate([30, 0, 17.5]) cube([4.5, 11, 20]);
-  }  
+  cube([15, 120, 10]);
+
+  for (i = [0:1:4]) {
+      translate([7.5, 10 + i * 25, 1]) resize([8, 5.5, 15]) cylinder(r = 2.5, h = 15);
+  }
 }
