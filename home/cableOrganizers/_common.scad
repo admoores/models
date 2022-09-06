@@ -15,7 +15,7 @@ wallThickness = 2.4;
 loopInnerDepth = 25;
 loopDepth = loopInnerDepth + wallThickness * 2;
 loopWidth = anchorWidth * 3/4;
-loopLength = length - anchorWidth * 2;
+loopLength = length - anchorWidth * 2 + wallThickness;
 
 screwHoleDiam = 4.75;
 countersinkDiam = 9;

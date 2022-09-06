@@ -1,14 +1,8 @@
-include <../modules/fillet.scad>
+include <_common.scad>
 
-$fa=4; // default minimum facet angle is now 0.5
-$fs=0.05; // default minimum facet size is now 0.05 mm
-
-
-railDiam = 3;
 spoolWidth = 5;
 spoolDiam = 150;
-railDistance = 30;
-wallThickness = 2.4;
+
 height = 20;
 
 difference() {
@@ -27,4 +21,4 @@ difference() {
   //   }
   //   translate([-.1, 0, -.1]) cube([railDistance * 2 + wallThickness * 2 + .2, railDiam * 2.5, spoolWidth + .2]);
   // }
-}a
+}
