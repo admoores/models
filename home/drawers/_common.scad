@@ -6,14 +6,14 @@ $fs=0.05; // default minimum facet size is now 0.05 mm
 
 unit = 50;
 
-unitsWide = 2;
+unitsWide = 1;
 unitsTall = 1;
 
 width = unitsWide * unit;
 height = unitsTall * unit;
 depth = 150;
 
-wallThickness = 2.8;
+wallThickness = 1.6;
 sphereDetentRad = 2.4;
 
 filletRad = 4;

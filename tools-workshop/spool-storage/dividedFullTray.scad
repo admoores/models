@@ -1,5 +1,7 @@
 include <_common.scad>;
 
+divisions = 4;
+
 intersection() {
   difference() {
     cylinder(r = outerRad, h = height);
@@ -18,7 +20,11 @@ intersection() {
           translate([wallThickness -.01, 0, -.5]) cube([1, outerRad + 1, height + 1]);
           rotate([0, 0, -8]) translate([0, outerRad - fingerHoleRad - wallThickness, height - fingerHoleRad - wallThickness]) cube([(fingerHoleRad + wallThickness) * 2, fingerHoleRad + wallThickness, fingerHoleRad + wallThickness]);
           rotate([0, 0, -8]) translate([0, outerRad - fingerHoleRad - wallThickness, height - fingerHoleRad - wallThickness]) rotate([-45, 0, 0]) cube([(fingerHoleRad + wallThickness) * 2, fingerHoleRad + wallThickness, fingerHoleRad + wallThickness]);
+          for (r = [90/divisions:90/divisions:90-90/divisions]) {
+            rotate([0, 0, -r]) cube([wallThickness, outerRad * 2, height * 2 + 2], center = true);
+          }
         }
+
         translate([wallThickness, wallThickness, wallThickness]) cube([100, 100, height]);
       }
       translate([outerRad - screwHoleYDistance - wallThickness + .01, screwHoleYDistance + wallThickness - .01, -1.5]) rotate([0, 0, -90]) difference() {

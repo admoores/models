@@ -1,8 +1,5 @@
 include <_common.scad>
 
-edgeLen = sideLen - bottomHeight;
-edgeWidth = 15;
-
 difference() {
   cube([edgeLen + edgeWidth, edgeWidth + wallThickness * 3 + acrylicThickness, woodThickness + wallThickness * 2]);
   translate([edgeLen, wallThickness * 3 + acrylicThickness, -.5]) rotate([0, 0, -45]) cube([edgeWidth * 2, edgeWidth, woodThickness + wallThickness * 2 + 1]);
