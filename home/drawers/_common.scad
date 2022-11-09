@@ -7,7 +7,7 @@ $fs=0.05; // default minimum facet size is now 0.05 mm
 unit = 50;
 
 unitsWide = 1;
-unitsTall = 1;
+unitsTall = 2;
 
 width = unitsWide * unit;
 height = unitsTall * unit;

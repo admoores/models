@@ -2,7 +2,7 @@ include <_common.scad>;
 
 partialHeight = (height / 2) - .1;
 
-divisions = 4;
+divisions = 1;
 
 intersection() {
   difference() {
