@@ -1,11 +1,9 @@
 $fa=4; // default minimum facet angle is now 4
 $fs=0.05; // default minimum facet size is now 0.05 mm
 
-// **NOTE** Width should be less than length (for the image to orient correctly)
-
-width = 200;
-length = 150;
-height = 30;
+width = 150;
+length = 200;
+  height = 10;
 wallThickness = 2.4;
 
 if (width > length) {

@@ -1,0 +1,45 @@
+{
+    "parameterSets": {
+        "00": {
+            "$fa": "4",
+            "$fs": "0.05",
+            "a0": "5",
+            "a1": "3",
+            "blockSupport": "true",
+            "innerCutout": "true",
+            "label": "true",
+            "labelText": "00",
+            "outerCutout": "true",
+            "t0": "2",
+            "t1": "0.25",
+            "x0": "16.5",
+            "x1": "15.5",
+            "y0": "15",
+            "y1": "13.6",
+            "z0": "30",
+            "z1": "15"
+        },
+        "01": {
+            "$fa": "4",
+            "$fs": "0.05",
+            "a0": "5",
+            "a1": "3",
+            "blockSupport": "true",
+            "innerCutout": "true",
+            "label": "true",
+            "labelText": "01",
+            "outerCutout": "true",
+            "t0": "2",
+            "t1": "0.25",
+            "x0": "16.5",
+            "x1": "15.5",
+            "y0": "15",
+            "y1": "13.6",
+            "z0": "30",
+            "z1": "15"
+        }
+    },
+    "fileFormatVersion": "1",
+    "parameterSets": "",
+    "parameterSets": ""
+}

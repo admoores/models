@@ -11,9 +11,11 @@ m3ScrewThruHole = 2;
 m3ScrewHead = 3.25;
 
 laptopThickness = 19.2;
+ipadThickness = 17.5;
+remarkableThickness = 10;
 laptopGap = 1;
 
-bracketHeight = 45;
+bracketHeight = 75;
 prongLength = 100;
 
 filletRad = 2;
