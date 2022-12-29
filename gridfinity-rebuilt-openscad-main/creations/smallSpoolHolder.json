@@ -1,0 +1,25 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "CheapSpools": {
+            "bottomThickness": "2.3999999999999999",
+            "postHeight": "15",
+            "postRad": "3.5",
+            "postsX": "4",
+            "postsY": "4",
+            "spoolLen": "22",
+            "spoolRad": "10",
+            "unitHeight": "6"
+        },
+        "NicerSpools": {
+            "bottomThickness": "2.3999999999999999",
+            "postHeight": "15",
+            "postRad": "2.25",
+            "postsX": "3",
+            "postsY": "3",
+            "spoolLen": "26",
+            "spoolRad": "13",
+            "unitHeight": "6"
+        }
+    }
+}

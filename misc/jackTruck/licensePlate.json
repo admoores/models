@@ -1,0 +1,32 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "design default values": {
+            "length": "35",
+            "text": "JACK-001",
+            "textBorder": "1",
+            "textDepth": "0.65",
+            "textSize": "3.25",
+            "thickness": "5",
+            "width": "6"
+        },
+        "Semi": {
+            "length": "35",
+            "text": "JACK-001",
+            "textBorder": "1",
+            "textDepth": "0.65",
+            "textSize": "3.25",
+            "thickness": "5",
+            "width": "6"
+        },
+        "Car": {
+            "length": "23",
+            "text": "J-06",
+            "textBorder": "1.5",
+            "textDepth": "1.5",
+            "textSize": "3.25",
+            "thickness": "3",
+            "width": "9"
+        }
+    }
+}

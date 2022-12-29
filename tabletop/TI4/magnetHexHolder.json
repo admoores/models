@@ -1,0 +1,41 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "baseHeight": "0.80000000000000004",
+            "hexagonsPerSide": "2",
+            "innerRadius": "60",
+            "jointTolerance": "0.059999999999999998",
+            "magnetBottomChamferRadius": "2",
+            "magnetHoleDepth": "2.3999999999999999",
+            "magnetHoleStyle": "3",
+            "magnetOutset": "0.10000000000000001",
+            "magnetRadius": "1.55",
+            "magnetTopChamferRadius": "1.8",
+            "oneSide": "true",
+            "outerOffset": "5",
+            "recessDepth": "2.3999999999999999",
+            "reliefRadius": "1",
+            "tabType": "1",
+            "tabWidth": "5"
+        },
+        "New set 2": {
+            "baseHeight": "0.80000000000000004",
+            "hexagonsPerSide": "4",
+            "innerRadius": "58.100000000000001",
+            "jointTolerance": "0.059999999999999998",
+            "magnetBottomChamferRadius": "2",
+            "magnetHoleDepth": "2.3999999999999999",
+            "magnetHoleStyle": "3",
+            "magnetOutset": "0.10000000000000001",
+            "magnetRadius": "1.55",
+            "magnetTopChamferRadius": "1.8",
+            "oneSide": "true",
+            "outerOffset": "5",
+            "recessDepth": "2.3999999999999999",
+            "reliefRadius": "1",
+            "tabType": "1",
+            "tabWidth": "5"
+        }
+    }
+}

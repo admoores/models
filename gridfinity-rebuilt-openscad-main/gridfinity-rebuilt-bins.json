@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "Basic Bin": {
+            "$fa": "8",
+            "$fs": "0.25",
+            "div_base_x": "0",
+            "div_base_y": "0",
+            "divx": "4",
+            "divy": "1",
+            "enable_lip": "true",
+            "enable_scoop": "false",
+            "enable_zsnap": "true",
+            "gridx": "1",
+            "gridy": "1",
+            "gridz": "9",
+            "gridz_define": "0",
+            "height_internal": "0",
+            "length": "42",
+            "style_hole": "1",
+            "style_tab": "5"
+        }
+    }
+}
