@@ -43,7 +43,7 @@ style_hole = 0; // [0:none, 1:contersink, 2:counterbore]
 // ===== IMPLEMENTATION ===== //
 
 color("tomato") 
-gridfinityBaseplate(gridx, gridy, length, distancex, distancey, style_plate, enable_magnet, style_hole); 
+gridfinityBaseplate(gridx, gridy, length, distancex, distancey, style_plate, enable_magnet, style_hole);
 
 
 

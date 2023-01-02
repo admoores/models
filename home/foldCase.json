@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "SmallTest": {
+            "caseFil": "5",
+            "caseLayers": "30",
+            "caseX": "40",
+            "caseY": "40",
+            "flap": "true",
+            "flapBorder": "1",
+            "flapLayers": "3",
+            "flapSpineTol": "1",
+            "layer": "0.29999999999999999",
+            "looseTol": "0.10000000000000001",
+            "magCapLayers": "2",
+            "magChmfr": "0.5",
+            "magCt": "2",
+            "magLayers": "7",
+            "magRad": "2.25",
+            "magStyle": "1",
+            "nozzle": "0.40000000000000002"
+        }
+    }
+}

@@ -6,7 +6,7 @@ $fs = 0.25 + 0;
 
 /* [Tile Dimensions] */
 // Center to corner of inner recess
-innerRadius = 58.1;
+innerRadius = 58.5;
 // Center to center of edge
 tileApothem = (innerRadius * sqrt(3)) / 2;
 // Depth of the recess to accept the tile
@@ -35,7 +35,7 @@ apothemDiff = outerApothemOffset - tileApothem;
 // Magnet Hole Style
 magnetHoleStyle = 4; // [0: No holes, 1: Open on top, 2: fully enclosed (requires layer pause), 3: Open on bottom, 4: open top and bottom (magnetHoleDepth is ignored)]
 // Radius of magnet
-magnetRadius = 1.5;
+magnetRadius = 1.475;
 // Amount that the magnet will stick out the side (negative to enclose magnet)
 magnetOutset = .1;
 // Chamfers for the top and/or bottom of the magnet hole. Chamfering the bottom of a blind hole helps with a press fit.
@@ -47,7 +47,7 @@ magnetHoleDepth = 2.4;
 /* [Assembly] */
 assemblyStyle = 1;  // [0: Full part as-is, 1: Cut into 6 corner pieces, 2: Cut into 6 edge pieces]
 // Adds tolerance for the clip-together joints. Only relevant if cut to one side
-jointTolerance = 0.06;
+jointTolerance = 0.075;
 
 // Utility Calculations
 hTot = baseHeight + recessDepth;
@@ -87,8 +87,8 @@ module hexHolder() {
       }
       if (tabType == 1) {
         for (t=[0:60:300]) {
-          for (c=[1:1:hexagonsPerSide]) {
-            rotate([0, 0, t]) translate([(-innerRadius / 2) + c * (innerRadius / (hexagonsPerSide + 1)), tileApothem, 0]) linear_extrude(baseHeight) hexagon(tabWidth);
+          for (c=[0.5:1:hexagonsPerSide]) {
+            rotate([0, 0, t]) translate([(-innerRadius / 2) + c * (innerRadius / (hexagonsPerSide)), tileApothem, 0]) linear_extrude(baseHeight) hexagon(tabWidth);
           }
         }
       }
