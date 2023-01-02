@@ -19,7 +19,7 @@ r_fo3 = 1.6;
 // screw hole radius
 r_hole1 = 1.5;  
 // magnet hole radius
-r_hole2 = 3.1 + .0001; 
+r_hole2 = 3.05; 
 // center-to-center distance between holes
 d_hole = 26;    
 // magnet hole depth
