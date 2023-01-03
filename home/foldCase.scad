@@ -1,6 +1,6 @@
 $fa=4 + 0; // default minimum facet angle is now 0.5
 $fs=0.05 + 0; // default minimum facet size is now 0.05 mm
-eps = .001 + 0;
+eps = .005 + 0;
 
 /* [Print Info] */
 // Nozzle diameter
@@ -26,7 +26,7 @@ cr = 2.5;
 // Spine excess width
 cst = 1;
 // Connection flap height in layers (0 for disconnected)
-cfl = 2;
+cfl = 3;
 cfz = cfl * _l;
 // Connection flap offset (0 for flush with case)
 cfo = 1.2;
@@ -48,12 +48,29 @@ ml = 7;
 // Minimum magnet bottom layers
 mbl = 3 + 0;
 mbz = mbl * _l;
-
-
 // Chamfer around top/bottom of magnet holes (in layers)
 mcl = 2;
+
+/* [Design] */
+// Design Style
+ds = 1; // [0: None, 1: Full Inset panel]
+// Panel Offset (for inset panel design)
+dpo = 1.8;
+// Export Panel Outline in 2d
+ep2d = false;
+// Export Panel
+ep = true;
+// DXF Import Path
+dxfPath = "/home/gouda/Documents/Models/2D/foldCasePanelCharge.dxf";
+// Total DXF Layer Count
+dxfLayers = 2;
+// Layer to Export (-1 for background)
+dxfTargetLayer = 0;
+
 mcz = mcl * _l;
 mz = (ml + mcl) * _l;
+
+totalX = (cx * 2 + cz1 + cz2 + cst + cr * 2);
 
 module magnetHole(r = mr, h = mz, l = _l, c = mcz) {
   cylinder(r = r, h = h - c + eps);
@@ -97,14 +114,54 @@ module caseBase(x = cx, y = cy, z = cz1, r = cr, fz = cfz, fo = cfo, mhr = mr) {
   }
 }
 
+module firstLayerDesign(layer = dxfTargetLayer, layers = dxfLayers, path = dxfPath) {
+  lTarget = str("L", layer);
+  difference() {
+    intersection() {
+      linear_extrude(_l) offset(r=cr + cfo - dpo) square([totalX, cy]);
+      if (layer != -1) translate([-(totalX) / 2 + dpo, -cy / 2 + dpo, 0]) linear_extrude(1) import(path, layer=lTarget);
+    }
+    for (l1 = [layer+1:1:layers]) {
+      lTarget1 = str("L", l1);
+      translate([-(totalX) / 2 + dpo, -cy / 2 + dpo, -eps]) linear_extrude(1 + eps * 2) import(path, layer=lTarget1);
+    }
+  }
+}
+
+module integratedSkirt() {
+  skirtGap = 2;
+  skirtThickness = 1;
+  difference() {
+        translate([-cx / 2, -cy / 2, -cfz]) linear_extrude(_l) offset(r=cr + cfo + skirtGap + skirtThickness) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
+        translate([-cx / 2, -cy / 2, -cfz - eps]) linear_extrude(_l + 2*eps) offset(r=cr + cfo + skirtGap) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
+  }
+} 
+
 if (cz1 < mz || cz2 < mz) {
   text("NO ROOM FOR MAGNETS", valign = "center", halign = "center");
+} else if (ds == 1 && dpo <= 0) {
+  text("PANEL OFFSET CANNOT BE 0", valign = "center", halign = "center");
 } else {
-  caseBase(cx, cy, cz1, cr) {
-    cube([100, 100, 100], center=true);
+  integratedSkirt();
+  if (ep2d) {
+    translate([-cx / 2, -cy / 2, -cfz]) offset(r=cr + cfo - dpo) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
+  } else if (ep) {
+    translate([-cx / 2, -cy / 2, -cfz]) firstLayerDesign();
+  } else {
+    difference() {
+      union() {
+        caseBase(cx, cy, cz1, cr) {
+          cube([100, 100, 100], center=true);
+        }
+        translate([cx + cz1 + cz2 + cst + cr * 2, 0, 0]) caseBase(cx, cy, cz2, cr) {
+          cube([100, 100, 100], center=true);
+        }
+        translate([-cx / 2, -cy / 2, -cfz]) linear_extrude(cfz) offset(r=cr + cfo) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
+      }
+      if (ds == 1) {
+        translate([-cx / 2, -cy / 2, -cfz - eps]) linear_extrude(_l + eps) offset(r=cr + cfo - dpo) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
+      }
+    }
   }
-  translate([cx + cz1 + cz2 + cst + cr * 2, 0, 0]) caseBase(cx, cy, cz2, cr) {
-    cube([100, 100, 100], center=true);
-  }
-  translate([-cx / 2, -cy / 2, -cfz]) linear_extrude(cfz) offset(r=cr + cfo) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
+
 }

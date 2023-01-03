@@ -1,0 +1,15 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "DrawerFit": {
+            "baseLip": "true",
+            "ql": "0.75",
+            "re": "4",
+            "t": "0.025000000000000001",
+            "tw": "0.90000000000000002",
+            "xe": "40",
+            "ye": "20",
+            "ze": "65"
+        }
+    }
+}
