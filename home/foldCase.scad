@@ -42,13 +42,13 @@ cy = coy - cr * 2;
 // Magnet Hole Style
 mSt = 1; // [0: None, 1: Exposed]
 // Magnet Hole Radius
-mr = 2.45;
+mr = 3.00;
 // Magnet Hole Depth (in layers)
 ml = 7;
 // Minimum magnet bottom layers
 mbl = 3 + 0;
 mbz = mbl * _l;
-// Chamfer around top/bottom of magnet holes (in layers)
+// Chamfer around top of magnet holes (in layers)
 mcl = 2;
 
 /* [Design] */
@@ -59,9 +59,9 @@ dpo = 1.8;
 // Export Panel Outline in 2d
 ep2d = false;
 // Export Panel
-ep = true;
+ep = false;
 // DXF Import Path
-dxfPath = "/home/gouda/Documents/Models/2D/foldCasePanelCharge.dxf";
+dxfPath = "/home/gouda/Documents/Models/2D/foldCase_charge.dxf";
 // Total DXF Layer Count
 dxfLayers = 2;
 // Layer to Export (-1 for background)
@@ -114,16 +114,18 @@ module caseBase(x = cx, y = cy, z = cz1, r = cr, fz = cfz, fo = cfo, mhr = mr) {
   }
 }
 
+
+
 module firstLayerDesign(layer = dxfTargetLayer, layers = dxfLayers, path = dxfPath) {
   lTarget = str("L", layer);
   difference() {
     intersection() {
       linear_extrude(_l) offset(r=cr + cfo - dpo) square([totalX, cy]);
-      if (layer != -1) translate([-(totalX) / 2 + dpo, -cy / 2 + dpo, 0]) linear_extrude(1) import(path, layer=lTarget);
+      if (layer != -1) linear_extrude(1) import(path, layer=lTarget, origin=[cr + cfo - dpo, cr + cfo - dpo]);
     }
     for (l1 = [layer+1:1:layers]) {
       lTarget1 = str("L", l1);
-      translate([-(totalX) / 2 + dpo, -cy / 2 + dpo, -eps]) linear_extrude(1 + eps * 2) import(path, layer=lTarget1);
+      translate([0, 0, -eps]) linear_extrude(1 + 2*eps) import(path, layer=lTarget1, origin=[cr + cfo - dpo, cr + cfo - dpo]);
     }
   }
 }
@@ -142,10 +144,10 @@ if (cz1 < mz || cz2 < mz) {
 } else if (ds == 1 && dpo <= 0) {
   text("PANEL OFFSET CANNOT BE 0", valign = "center", halign = "center");
 } else {
-  integratedSkirt();
-  if (ep2d) {
+  if (ds > 0 && !ep2d) integratedSkirt();
+  if (ep2d && ds > 0) {
     translate([-cx / 2, -cy / 2, -cfz]) offset(r=cr + cfo - dpo) square([cx * 2 + cz1 + cz2 + cst + cr * 2, cy]);
-  } else if (ep) {
+  } else if (ep && ds > 0) {
     translate([-cx / 2, -cy / 2, -cfz]) firstLayerDesign();
   } else {
     difference() {
@@ -163,5 +165,29 @@ if (cz1 < mz || cz2 < mz) {
       }
     }
   }
-
 }
+
+// Magnet Hole Test
+
+// !union() {
+//   layerTests = 1;
+//   radiusTests = 2;
+//   radiusShift = .05;
+
+//   mr=3.10;
+
+//   maxRadius = radiusShift * radiusTests + mr;
+//   maxHeight = ((ml+mcl) + layerTests) * _l;
+//   difference() {
+//     translate([-20, -12.5, -cfz - _l*2 - eps]) cube([45, 35, maxHeight + cfz]);
+//     for (i=[-layerTests:1:layerTests]) {
+//       layers = (ml + mcl) - layerTests + i;
+//       #translate([20, i * maxRadius * 2.25, maxHeight -4*_l]) linear_extrude(2*_l) text(str(layers), valign="center", halign="center", size=4, font="Bitstream Vera Sans Mono:style=Bold");
+//       for (c=[-radiusTests:1:radiusTests]) {
+//         radius = mr + radiusShift * c;
+//         if(i==0) translate([c * maxRadius * 2.25, 16, maxHeight -4*_l]) rotate([0, 0, 90]) linear_extrude(2*_l) text(str(radius), valign="center", halign="center", size=3, font="Bitstream Vera Sans Mono:style=Bold");
+//         translate([maxRadius * 2.25 * c, maxRadius * 2.25 * i, _l * -i]) magnetHole(radius, layers * _l);
+//       }
+//     }
+//   }
+// }

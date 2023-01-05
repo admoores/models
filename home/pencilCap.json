@@ -1,0 +1,14 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "h1": "4.25",
+            "h2": "13",
+            "od1": "6.25",
+            "od2": "5.75",
+            "roundedTopHeight": "1.6000000000000001",
+            "text": "HB",
+            "tw": "0.34999999999999998"
+        }
+    }
+}
