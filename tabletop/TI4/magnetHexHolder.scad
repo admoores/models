@@ -39,12 +39,12 @@ magnetHoleStyle = 3; // [0: No holes, 1: Open on top, 2: fully enclosed (require
 // Radius of magnet
 magnetRadius = 1.175;
 // Amount that the magnet will stick out the side (negative to enclose magnet)
-magnetOutset = 0.05;
+magnetOutset = .05;
 // Chamfers for the top and/or bottom of the magnet hole. Chamfering the bottom of a blind hole helps with a press fit.
-magnetTopChamferRadius = 0;
-magnetBottomChamferRadius = 1.5;
+magnetTopChamferRadius = 1.4;
+magnetBottomChamferRadius = 1.4;
 // Depth of the magnet hole
-magnetHoleDepth = 2.7;
+magnetHoleDepth = 2.5;
 
 /* [Assembly] */
 assemblyStyle = 1;  // [0: Full part as-is, 1: Cut into 6 corner pieces, 2: Cut into 6 edge pieces]
