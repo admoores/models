@@ -1,5 +1,5 @@
 include <../../modules/hexagon.scad>
-
+include <../../_constants.scad>
 $fa = 8 + 0;
 $fs = 0.25 + 0;
 
@@ -7,14 +7,16 @@ $fs = 0.25 + 0;
 /* [Tile Dimensions] */
 // Center to corner of inner recess
 innerRadius = 58.5;
+// Lip Amount for inner area (height and length are same)
+innerLip = .75;
 // Center to center of edge
 tileApothem = (innerRadius * sqrt(3)) / 2;
 // Depth of the recess to accept the tile
-recessDepth = 2;
+recessDepth = 2.5;
 // The radius of the relief circles at each corner of the recess
 reliefRadius = 1;
 // The offset from the tile corner to the outer corner of the holder
-outerOffset = 5;
+outerOffset = 4;
 // Offset from center of edge to center of tile
 outerApothemOffset = ((innerRadius + outerOffset) * sqrt(3)) / 2;
 // The thickness of the base under the tile itself
@@ -24,30 +26,30 @@ baseHeight = .4;
 /* [Tab] */
 tabType = 1; // [0: no tabs (solid base), 1: partial hex tabs, 2: solid lip]
 // Radius of circles or width of inset
-tabWidth = 5;
+tabWidth = 4;
 // Hex tabs per side of tile. Only applicable if tab type is 1
-hexagonsPerSide = 4;
+hexagonsPerSide = 6;
 
 apothemDiff = outerApothemOffset - tileApothem;
 
 
 /* [Magnet] */
 // Magnet Hole Style
-magnetHoleStyle = 4; // [0: No holes, 1: Open on top, 2: fully enclosed (requires layer pause), 3: Open on bottom, 4: open top and bottom (magnetHoleDepth is ignored)]
+magnetHoleStyle = 3; // [0: No holes, 1: Open on top, 2: fully enclosed (requires layer pause), 3: Open on bottom, 4: open top and bottom (magnetHoleDepth is ignored)]
 // Radius of magnet
-magnetRadius = 1.475;
+magnetRadius = 1.175;
 // Amount that the magnet will stick out the side (negative to enclose magnet)
-magnetOutset = .1;
+magnetOutset = 0.05;
 // Chamfers for the top and/or bottom of the magnet hole. Chamfering the bottom of a blind hole helps with a press fit.
-magnetTopChamferRadius = 1.8;
-magnetBottomChamferRadius = 2;
+magnetTopChamferRadius = 0;
+magnetBottomChamferRadius = 1.5;
 // Depth of the magnet hole
-magnetHoleDepth = 2.4;
+magnetHoleDepth = 2.7;
 
 /* [Assembly] */
 assemblyStyle = 1;  // [0: Full part as-is, 1: Cut into 6 corner pieces, 2: Cut into 6 edge pieces]
 // Adds tolerance for the clip-together joints. Only relevant if cut to one side
-jointTolerance = 0.075;
+jointTolerance = 0.05;
 
 // Utility Calculations
 hTot = baseHeight + recessDepth;
@@ -78,9 +80,13 @@ module hexHolder() {
     union() {
       difference() {
         linear_extrude(baseHeight + recessDepth) hexagon(r = innerRadius + outerOffset);
-        translate([0, 0, baseHeight]) linear_extrude(baseHeight + recessDepth + 2) hexagon(r = innerRadius);
-        if (tabType == 1) translate([0, 0, -1]) linear_extrude(baseHeight + recessDepth + 2) hexagon(r = innerRadius);
-        if (tabType == 2) translate([0, 0, -1]) linear_extrude(baseHeight + recessDepth + 2) hexagon(r = innerRadius - tabWidth);
+        translate([0, 0, baseHeight]) linear_extrude(recessDepth - innerLip + eps) hexagon(r = innerRadius);
+        hull() {
+          translate([0, 0, baseHeight + recessDepth - innerLip]) linear_extrude(eps) hexagon(r = innerRadius);
+          translate([0, 0, baseHeight + recessDepth]) linear_extrude(eps) hexagon(r = innerRadius - innerLip);
+        }
+        if (tabType == 1) translate([0, 0, -eps]) linear_extrude(baseHeight + eps*2) hexagon(r = innerRadius);
+        if (tabType == 2) translate([0, 0, -eps]) linear_extrude(baseHeight + eps*2) hexagon(r = innerRadius - tabWidth);
         for (t=[0:60:300]) {
           rotate([0, 0, t]) translate([innerRadius, 0, baseHeight]) cylinder(r = reliefRadius, h = recessDepth + .01);
         }
@@ -99,8 +105,8 @@ module hexHolder() {
         translate([0, 0, -1]) linear_extrude(12) hexagon(r = innerRadius + outerOffset);
     }
 
-    if (magnetHoleStyle != 0) for (t=[0:60:300]) rotate([0, 0, t]) translate([0, outerApothemOffset - magnetRadius + magnetOutset, magnetHoleStyle == 3 ? -.001 : baseHeight + recessDepth - magnetHoleDepth])  {
-      hMagHole = (magnetHoleStyle == 4) ? hTot : magnetHoleDepth;
+    if (magnetHoleStyle != 0) for (t=[0:60:300]) rotate([0, 0, t]) translate([0, outerApothemOffset - magnetRadius + magnetOutset, magnetHoleStyle >= 3 ? -.001 : baseHeight + recessDepth - magnetHoleDepth])  {
+      hMagHole = (magnetHoleStyle == 4) ? hTot + .002 : magnetHoleDepth;
 
       translate([innerRadius / 4, 0, 0]) cylinder(r = magnetRadius, h = hMagHole);
       translate([-innerRadius / 4, 0, 0]) cylinder(r = magnetRadius, h = hMagHole);
@@ -119,9 +125,9 @@ module hexHolder() {
 
       difference() {
         translate([0, 0, -.001]) union() {
-          rotate([0, 0, sliceAngle]) rotate_extrude(angle=300) square([rTot * 1.5, baseHeight + recessDepth + .002]);
+          rotate([0, 0, sliceAngle - .001]) rotate_extrude(angle=300.002) square([rTot * 1.5, baseHeight + recessDepth + .002]);
           translate([0, -rTot * 1.5, 0]) cube([jointTolerance, rTot * 1.5, baseHeight + recessDepth + .002]);
-          rotate([0, 0, sliceAngle - 90]) cube([jointTolerance, rTot * 1.5, baseHeight + recessDepth]);
+          rotate([0, 0, sliceAngle - 90]) translate([0, -.001, 0]) cube([jointTolerance + .001, rTot * 1.5 + .002, baseHeight + recessDepth + .002]);
         }
         
       rotate([0, 0, sliceAngle + 30]) assemblyTab(-d_tab, -jointTolerance, o_tab);

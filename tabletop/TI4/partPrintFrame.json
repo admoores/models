@@ -1,0 +1,22 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "dx": "65",
+            "dx1": "1",
+            "dy": "13",
+            "dy1": "200",
+            "extraXEmpty": "0",
+            "extraYEmpty": "1.5",
+            "frame": "false",
+            "h0": "2",
+            "nx": "1",
+            "ny": "6",
+            "ox": "0.5",
+            "oy": "0",
+            "w0": "2.6000000000000001",
+            "w1": "1.3",
+            "w2": "1.3"
+        }
+    }
+}

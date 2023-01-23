@@ -121,16 +121,16 @@ gridfinityBase(3, 3, 42, 0, 0, 1);
 */
 
 // Areas without a compartment are solid material, where you can put your own cutout shapes. using the cut_move() function, you can select an area, and any child shapes will be moved from the origin to the center of that area, and subtracted from the block. For example, a pattern of three cylinderical holes.
-/*
-gridfinityInit(3, 3, height(6), 0, 42) {
-    cut(x=0, y=0, w=2, h=3);
-    cut(x=0, y=0, w=3, h=1, t=5);
-    cut_move(x=2, y=1, w=1, h=2) 
-        pattern_linear(x=1, y=3, sx=42/2) 
-            cylinder(r=5, h=1000, center=true);
-}
-gridfinityBase(3, 3, 42, 0, 0, 1);
-*/
+// /*
+// gridfinityInit(3, 3, height(6), 0, 42) {
+//     cut(x=0, y=0, w=2, h=3);
+//     cut(x=0, y=0, w=3, h=1, t=5);
+//     cut_move(x=2, y=1, w=1, h=2) 
+//         pattern_linear(x=1, y=3, sx=42/2) 
+//             cylinder(r=5, h=1000, center=true);
+// }
+// gridfinityBase(3, 3, 42, 0, 0, 1);
+// */
 
 // You can use loops as well as the bin dimensions to make different parametric functions, such as this one, which divides the box into columns, with a small 1x1 top compartment and a long vertical compartment below
 /*
