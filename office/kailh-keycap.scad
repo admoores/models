@@ -10,15 +10,15 @@ ctrToCtr = dGap + d1;
 h1 = 0 + 2.95;
 h2 = 0 + 0.725;
 
-l1 = 0 + 3;
+l1 = 0 + 2.5;
 
 /* Keycap Dimensions */
 unit = 0 + 17;
 edgeGap = 0 + .25;
 radius = 0 + 1.25;
-thickness = 0 + 3;
+thickness = 0 + 2.5;
 
-chamferBottom = 0 + 1;
+chamferBottom = 0 + 0.75;
 chamferTop = 0 + 0.75;
 
 dishInset = 0 + 0.5;
@@ -27,9 +27,8 @@ dishDepth = 0 + 0.25;
 /* Support Block */
 supportHeight = 0 + 5;
 supportOffset = 0 + 1;
-tipContactRad = 0 + 0.3;
-supportSpacing = 1;
-layer=.05;
+tipContactRad = 0 + 0.2;
+supportSpacing = 0 + 1;
 
 /* Configuration */
 dish = true; // Whether or not to include the dish element;
@@ -54,7 +53,7 @@ module keyCap(x = 0, y = 0, z = 0) {
   t1 = thickness - chamferBottom - chamferTop;
 
   x1 = xDim - 2*radius;
-  y1 = (unit * unitY) - 2*radius;
+  y1 = yDim - 2*radius;
 
   x2 = x1 - 2*chamferBottom;
   y2 = y1 - 2*chamferBottom;
@@ -89,8 +88,7 @@ module fullKeyCap() {
 }
 
 module attachmentPoint() {
-  cylinder(r = tipContactRad, h=supportOffset - layer*2);
-  translate([0, 0, supportOffset-layer*2]) cylinder(r1 = tipContactRad, r2=tipContactRad/2, h=2*layer);
+  translate([0, 0, -eps]) cylinder(r1 = supportSpacing / 2, r2 = tipContactRad, h=supportOffset + eps);
 }
 
 x1 = xDim - 2*radius - chamferBottom*2;
@@ -116,7 +114,7 @@ if (supportTool) translate([0, 0, -supportHeight]) {
       union() {
         translate([0, 0, -supportHeight]) hull() {
           linear_extrude(eps) offset(radius) square([x1, y1], center=true);
-          translate([0, 0, supportHeight - supportOffset]) linear_extrude(eps) offset(radius) square([xDim + 2.5, y1], center=true);
+          translate([0, 0, supportHeight - supportOffset]) linear_extrude(eps) offset(radius) square([x1, yDim + 2.5], center=true);
         }
       }
 
@@ -130,7 +128,7 @@ if (supportTool) translate([0, 0, -supportHeight]) {
       }
     }
 
-    // Attachment points
+    //Attachment points
     union() {
       ax = xDim - .75 - 2*radius;
       ay = yDim - .75 - 2*radius;
@@ -138,7 +136,7 @@ if (supportTool) translate([0, 0, -supportHeight]) {
       for(x=[-d1/2, d1/2]) for (y=[-h1/2, h1/2, h1/2-h2, -h1/2+h2]) for(xC=[-ctrToCtr/2, ctrToCtr/2]) translate([x +xC, y, -l1 - supportOffset]) attachmentPoint();
 
       for(x=[-ax/2+supportSpacing:supportSpacing:ax/2-supportSpacing]) for(y=[-ay/2,-h1*.75,h1*.75,ay/2]) translate([x, y, -supportOffset]) attachmentPoint();
-      for(x=[-ax/6:supportSpacing:ax/6]) for(y=[-ay/3 + 1,ay/3 + 1,-ay/3 - 1,ay/3 - 1]) translate([x, y, -supportOffset]) attachmentPoint();
+      for(x=[-ax/5:supportSpacing:ax/5]) for(y=[-ay/3 + 1,ay/3 + 1,-ay/3 - 1,ay/3 - 1]) translate([x, y, -supportOffset]) attachmentPoint();
       for(x=[-ax/2,ax/2]) for(y=[-ay/2:supportSpacing:ay/2]) translate([x, y, -supportOffset]) attachmentPoint();
     }
   }
@@ -146,6 +144,6 @@ if (supportTool) translate([0, 0, -supportHeight]) {
 
 /* Support Removal Tool */
 // !difference() {
-//   cube([unit + 12, unit, 12], center=true);
-//   translate([0, 0, 4]) cube([unit + .5, unit + eps, 12], center=true);
+//   cube([unit + 12, unit * 1.5, 12], center=true);
+//   translate([0, 0, 4]) cube([unit + .5, unit *1.5 + eps, 12], center=true);
 // }

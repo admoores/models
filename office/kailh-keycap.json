@@ -3,6 +3,7 @@
     "parameterSets": {
         "1u": {
             "dish": "true",
+            "supportBrick": "true",
             "supportTool": "false",
             "unitX": "1",
             "unitY": "1"
