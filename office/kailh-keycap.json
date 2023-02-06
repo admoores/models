@@ -1,0 +1,18 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "1u": {
+            "dish": "true",
+            "supportTool": "false",
+            "unitX": "1",
+            "unitY": "1"
+        },
+        "1.5u": {
+            "dish": "false",
+            "supportBrick": "true",
+            "supportTool": "false",
+            "unitX": "1.5",
+            "unitY": "1"
+        }
+    }
+}
