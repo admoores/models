@@ -19,15 +19,15 @@ l1 = 0 + 3;
 
 /*Keycap Dimensions*/
 xUnit = 18 + 0;
-yUnit = 19 + 0;
+yUnit = 17 + 0;
 
 cornerRadius = 0 + 3;
 keySpacing = 0 + .5;
 chamfer = 0 + 1.5;
 height = 0 + 2;
 
-dishDepth = 0 + .5;
-dishInset = 0 + .75;
+dishDepth = 0 + .25;
+dishInset = 0 + 1.25;
 
 /* Computed */
 xLen = (xUnit * ux) - keySpacing;
@@ -46,7 +46,7 @@ module keyCap() {
     }
     if (dish) {
       hull() {
-        translate([0, 0, height + chamfer - dishDepth]) linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2 - chamfer*2 - dishInset*4, yLen - cornerRadius*2 - chamfer*2 - dishInset*4], center=true);
+        translate([0, 0, height + chamfer - dishDepth]) linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2 - chamfer*2 - dishInset*2 - dishDepth*2, yLen - cornerRadius*2 - chamfer*2 - dishInset*2 - dishDepth*2], center=true);
         translate([0, 0, height + chamfer]) linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2 - chamfer*2 - dishInset*2, yLen - cornerRadius*2 - chamfer*2 - dishInset*2], center=true);
       }
     }
