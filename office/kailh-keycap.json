@@ -1,19 +1,12 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "1u": {
-            "dish": "true",
-            "supportBrick": "true",
-            "supportTool": "false",
-            "unitX": "1",
-            "unitY": "1"
-        },
-        "1.5u": {
-            "dish": "false",
-            "supportBrick": "true",
-            "supportTool": "false",
-            "unitX": "1.5",
-            "unitY": "1"
+        "New set 1": {
+            "support": "false",
+            "topHeight": "2",
+            "ux": "0.98999999999999999",
+            "uy": "0.98999999999999999",
+            "variant": "2"
         }
     }
 }
