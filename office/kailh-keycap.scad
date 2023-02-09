@@ -141,11 +141,8 @@ module supportBlock() {
   }
 }
 
-fullKeyCap();
-if (support) supportBlock();
-
-if (supportTool) {
-  !translate([0, 0, -supportHeight -baseThickness -postHeight -supportOffset*2]) {
+module supportTool() {
+  translate([0, 0, -supportHeight -baseThickness -postHeight -supportOffset*2]) {
     cornerInset = cornerRadius + bottomDish + supportToolPostRad;
     for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
       for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset])
@@ -157,3 +154,8 @@ if (supportTool) {
   translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=supportRad/2);
   }
 }
+
+fullKeyCap();
+if (support) supportBlock();
+
+if (supportTool) !supportTool();

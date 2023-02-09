@@ -1,25 +1,14 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "New set 1": {
-            "support": "true",
-            "supportTool": "false",
-            "ux": "0.98999999999999999",
-            "uy": "0.98999999999999999",
-            "variant": "2"
-        },
         "1u": {
             "support": "true",
             "supportTool": "false",
-            "ux": "1",
-            "uy": "1",
             "variant": "2"
         },
         "1.5u": {
             "support": "true",
             "supportTool": "false",
-            "ux": "1.5",
-            "uy": "1",
             "variant": "2"
         }
     }
