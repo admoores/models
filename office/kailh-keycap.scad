@@ -1,25 +1,25 @@
 include <../_constants.scad>
 
 // KB units wide
-ux = 0.99;
+xUnits = 0.99;
 // KB units tall
-uy = 0.99; 
+yUnits = 0.99; 
 // Include integrated support block
 support = true;
 supportTool = false;
 variant = 2; // [0: Custom Child, 1: Basic, 2: Basic Dished]
 
 /* Post Dimensions */
-d1 = 0 + 1.25;
-d2 = 0 + 0.75;
+postWidth = 0 + 1.25;
+postWaist = 0 + 0.75;
 
 dGap = 0 + 4.55;
-ctrToCtr = dGap + d1;
+ctrToCtr = dGap + postWidth;
 
-h1 = 0 + 2.95;
-h2 = 0 + 0.725;
+postHeight1 = 0 + 2.95;
+postHeight2 = 0 + 0.725;
 
-l1 = 0 + 3;
+postHeight = 0 + 3;
 
 /*Keycap Dimensions*/
 xUnit = 18 + 0;
@@ -46,8 +46,8 @@ contactRad = 0 + .2;
 supportToolPostRad = 0 + 1.5;
 
 /* Computed */
-xLen = (xUnit * ux) - keySpacing;
-yLen = (yUnit * uy) - keySpacing;
+xLen = (xUnit * xUnits) - keySpacing;
+yLen = (yUnit * yUnits) - keySpacing;
 
 module radiusRectangle(r = cornerRadius, x=xLen, y=yLen,offset=0) {
   union() {
@@ -72,10 +72,10 @@ module keyCapBase() {
 }
 
 module post(x = 0, y = 0, z = 0) {
-  translate([x, y, z - l1/2]) {
-    cube([d2, h1, l1], center = true);
-    translate([0, h1/2 - h2/2, 0]) cube([d1, h2, l1], center=true);
-    translate([0, -h1/2 + h2/2, 0]) cube([d1, h2, l1], center=true);
+  translate([x, y, z - postHeight/2]) {
+    cube([postWaist, postHeight1, postHeight], center = true);
+    translate([0, postHeight1/2 - postHeight2/2, 0]) cube([postWidth, postHeight2, postHeight], center=true);
+    translate([0, -postHeight1/2 + postHeight2/2, 0]) cube([postWidth, postHeight2, postHeight], center=true);
   }
 }
 
@@ -114,25 +114,25 @@ module supportRod(pillarHeight = 0) {
 }
 module supportBlock() {
   difference() {
-    translate([0, 0, -baseThickness - l1 - supportOffset]) {
+    translate([0, 0, -baseThickness - postHeight - supportOffset]) {
       translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=-bottomRim/2+supportRad);
       translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen+supportRemovalTab*2, y=yLen/2, r=supportRemovalTab);
       translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen/2, y=yLen+supportRemovalTab*2, r=supportRemovalTab);
       for(y = [-yLen/2 + cornerRadius - supportRad:supportSpacing:yLen/2 - cornerRadius + supportRad])
         for(x=[xLen/2 - bottomRim/2,-xLen/2 + bottomRim/2])
-          translate([x, y, 0]) supportRod(l1 - bottomDish);
+          translate([x, y, 0]) supportRod(postHeight - bottomDish);
       for(x = [-xLen/2 + cornerRadius - supportRad:supportSpacing:xLen/2 - cornerRadius + supportRad])
         for(y=[yLen/2 - bottomRim/2,-yLen/2 + bottomRim/2])
-          translate([x, y, 0]) supportRod(l1 - bottomDish);
-      for(x=[ctrToCtr/2+(d1/2),-ctrToCtr/2+(d1/2),ctrToCtr/2-(d1/2),-ctrToCtr/2-(d1/2)])
-        for(y=[-h1/2,-h1/2+h2,h1/2-h2,h1/2])
+          translate([x, y, 0]) supportRod(postHeight - bottomDish);
+      for(x=[ctrToCtr/2+(postWidth/2),-ctrToCtr/2+(postWidth/2),ctrToCtr/2-(postWidth/2),-ctrToCtr/2-(postWidth/2)])
+        for(y=[-postHeight1/2,-postHeight1/2+postHeight2,postHeight1/2-postHeight2,postHeight1/2])
           translate([x,y,0]) supportRod();
       for(y = [-yLen/2 + cornerRadius:supportSpacing:yLen/2 - cornerRadius])
         for(x=[0, (xLen - ctrToCtr)/2, (xLen - ctrToCtr)/-2])
-          translate([x, y, 0]) supportRod(l1);
+          translate([x, y, 0]) supportRod(postHeight);
       for(y=[-yLen/2 + cornerRadius/(sqrt(2)*2), yLen/2 - cornerRadius/(sqrt(2)*2)])
         for(x=[-xLen/2 + cornerRadius/(sqrt(2)*2), xLen/2 - cornerRadius/(sqrt(2)*2)])
-          translate([x, y, 0]) supportRod(l1 - bottomDish);
+          translate([x, y, 0]) supportRod(postHeight - bottomDish);
 
     }
     cornerInset = cornerRadius + bottomDish + supportToolPostRad;
@@ -145,7 +145,7 @@ fullKeyCap();
 if (support) supportBlock();
 
 if (supportTool) {
-  !translate([0, 0, -supportHeight -baseThickness -l1 -supportOffset*2]) {
+  !translate([0, 0, -supportHeight -baseThickness -postHeight -supportOffset*2]) {
     cornerInset = cornerRadius + bottomDish + supportToolPostRad;
     for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
       for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset])
