@@ -5,3 +5,4 @@ eps = .005 + 0;
 defaultFont = "Bitstream Vera Sans Mono:style=Bold";
 
 include <modules/breakPart.scad>;
+include <modules/hexagon.scad>;

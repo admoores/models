@@ -37,9 +37,9 @@ baseThickness = 0 + 2;
 topHeight = 0 + 2;
 
 supportHeight = 0 + 2.5;
-supportOffset = 0 + 1;
+supportOffset = 0 + 1.5;
 supportRad = 0 + .6;
-supportSpacing = 0 + 1.2;
+supportSpacing = 0 + 2;
 supportRemovalTab = 2.5;
 contactRad = 0 + .2;
 
@@ -116,7 +116,7 @@ module supportBlock() {
   difference() {
     translate([0, 0, -baseThickness - postHeight - supportOffset]) {
       translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=-bottomRim/2+supportRad);
-      translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen+supportRemovalTab*2, y=yLen/2, r=supportRemovalTab);
+      // translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen+supportRemovalTab*2, y=yLen/2, r=supportRemovalTab);
       translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen/2, y=yLen+supportRemovalTab*2, r=supportRemovalTab);
       for(y = [-yLen/2 + cornerRadius - supportRad:supportSpacing:yLen/2 - cornerRadius + supportRad])
         for(x=[xLen/2 - bottomRim/2,-xLen/2 + bottomRim/2])
@@ -125,6 +125,7 @@ module supportBlock() {
         for(y=[yLen/2 - bottomRim/2,-yLen/2 + bottomRim/2])
           translate([x, y, 0]) supportRod(postHeight - bottomDish);
       for(x=[ctrToCtr/2+(postWidth/2),-ctrToCtr/2+(postWidth/2),ctrToCtr/2-(postWidth/2),-ctrToCtr/2-(postWidth/2)])
+        // for(y=[-postHeight1/2,postHeight1/2])
         for(y=[-postHeight1/2,-postHeight1/2+postHeight2,postHeight1/2-postHeight2,postHeight1/2])
           translate([x,y,0]) supportRod();
       for(y = [-yLen/2 + cornerRadius:supportSpacing:yLen/2 - cornerRadius])
@@ -137,7 +138,7 @@ module supportBlock() {
     }
     cornerInset = cornerRadius + bottomDish + supportToolPostRad;
     for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
-      for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset]) translate([x,y,0]) cylinder(r = supportToolPostRad + .25, h=50, center=true);
+      for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset]) translate([x,y,-baseThickness - postHeight - supportOffset - supportHeight - eps]) cylinder(r1 = supportToolPostRad + supportHeight/2, r2 = supportToolPostRad + .25, h=supportHeight + eps*2, center=false);
   }
 }
 
@@ -147,8 +148,8 @@ module supportTool() {
     for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
       for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset])
       translate([x,y,0]) {
-        cylinder(r = supportToolPostRad, h=supportHeight + bottomDish + 2, center=false);
-        translate([0, 0, supportHeight + bottomDish + 2]) sphere(r=supportToolPostRad);
+        cylinder(r = supportToolPostRad, h=supportHeight*2 + supportOffset*2, center=false);
+        translate([0, 0, supportHeight*2 + supportOffset*2]) sphere(r=supportToolPostRad);
       }
 
   translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=supportRad/2);
