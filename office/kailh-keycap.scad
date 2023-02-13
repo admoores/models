@@ -1,149 +1,162 @@
 include <../_constants.scad>
 
+// KB units wide
+xUnits = 0.99;
+// KB units tall
+yUnits = 0.99; 
+// Include integrated support block
+support = true;
+supportTool = false;
+variant = 2; // [0: Custom Child, 1: Basic, 2: Basic Dished]
+
 /* Post Dimensions */
-d1 = 0 + 1.25;
-d2 = 0 + 0.75;
+postWidth = 0 + 1.25;
+postWaist = 0 + 0.75;
 
 dGap = 0 + 4.55;
-ctrToCtr = dGap + d1;
+ctrToCtr = dGap + postWidth;
 
-h1 = 0 + 2.95;
-h2 = 0 + 0.725;
+postHeight1 = 0 + 2.95;
+postHeight2 = 0 + 0.725;
 
-l1 = 0 + 2.5;
+postHeight = 0 + 3;
 
-/* Keycap Dimensions */
-unit = 0 + 17;
-edgeGap = 0 + .25;
-radius = 0 + 1.25;
-thickness = 0 + 2.5;
+/*Keycap Dimensions*/
+xUnit = 18 + 0;
+yUnit = 17 + 0;
 
-chamferBottom = 0 + 0.75;
-chamferTop = 0 + 0.75;
+cornerRadius = 0 + 3;
+keySpacing = 0 + .5;
+bottomDish = 0 + 1.5;
+bottomRim = 0 + 0.5;
 
-dishInset = 0 + 0.5;
-dishDepth = 0 + 0.25;
+topDish = 0 + 0.5;
+topRim = 0 + 1;
 
-/* Support Block */
-supportHeight = 0 + 5;
-supportOffset = 0 + 1;
-tipContactRad = 0 + 0.2;
-supportSpacing = 0 + 1;
+baseThickness = 0 + 2;
+topHeight = 0 + 2;
 
-/* Configuration */
-dish = true; // Whether or not to include the dish element;
-unitX = 1.25; // Units in length
-unitY = 1.25; // Units in height
+supportHeight = 0 + 2.5;
+supportOffset = 0 + 1.5;
+supportRad = 0 + .6;
+supportSpacing = 0 + 2;
+supportRemovalTab = 2.5;
+contactRad = 0 + .2;
 
-xDim = (unitX * unit) - 2*edgeGap;
-yDim = (unitY * unit) - 2*edgeGap;
+supportToolPostRad = 0 + 1.5;
 
-supportBrick = true;
-supportTool = false;
+/* Computed */
+xLen = (xUnit * xUnits) - keySpacing;
+yLen = (yUnit * yUnits) - keySpacing;
 
-module post(x = 0, y = 0, z = 0) {
-  translate([x, y, z - l1/2]) {
-    cube([d2, h1, l1], center = true);
-    translate([0, h1/2 - h2/2, 0]) cube([d1, h2, l1], center=true);
-    translate([0, -h1/2 + h2/2, 0]) cube([d1, h2, l1], center=true);
+module radiusRectangle(r = cornerRadius, x=xLen, y=yLen,offset=0) {
+  union() {
+    xDim = x-r*2;
+    yDim = y-r*2;
+    square([xDim, y+offset*2], center=true);
+    square([x+offset*2, yDim], center=true);
+    for (xPos=[xDim/2, -xDim/2]) for(yPos=[yDim/2, -yDim/2]) translate([xPos, yPos]) circle(r=r+offset);
   }
 }
 
-module keyCap(x = 0, y = 0, z = 0) {
-  t1 = thickness - chamferBottom - chamferTop;
-
-  x1 = xDim - 2*radius;
-  y1 = yDim - 2*radius;
-
-  x2 = x1 - 2*chamferBottom;
-  y2 = y1 - 2*chamferBottom;
-
-  x3 = x1 - 2*chamferTop;
-  y3 = y1 - 2*chamferTop;
-
-  x4 = x3 - 2*dishInset;
-  y4 = y3 - 2*dishInset;
-
-  x5 = x4 - 2*dishDepth;
-  y5 = y4 - 2*dishDepth;
-  translate([x, y, z + thickness / 2]) difference() {
+module keyCapBase() {
+  translate([0, 0, 0]) difference() {
+    translate([0, 0, -baseThickness-bottomDish]) linear_extrude(baseThickness+bottomDish) radiusRectangle();
     hull() {
-      translate([0, 0, -thickness/2 + chamferBottom]) linear_extrude(t1) offset(radius) square([x1, y1], center = true);
-      translate([0, 0, -thickness / 2]) linear_extrude(eps) offset(radius) square([x2, y2], center=true);
-      translate([0, 0, thickness / 2 - eps]) linear_extrude(eps) offset(radius) square([x3, y3], center=true);
+      outerInset = bottomRim;
+      innerInset = bottomRim + bottomDish;
+      translate([0, 0, -baseThickness-bottomDish-eps]) linear_extrude(eps) radiusRectangle(offset=-bottomRim);
+      translate([0, 0, -baseThickness]) linear_extrude(eps) radiusRectangle(offset=-bottomRim-bottomDish);
     }
-    if (dish) {
-      translate([0, 0, thickness / 2 - dishDepth]) hull() {
-        translate([0, 0, dishDepth]) linear_extrude(eps) offset(radius) square([x4, y4], center=true);
-        linear_extrude(eps) offset(radius) square([x5, y5], center=true);
-      }
+  }
+}
+
+module post(x = 0, y = 0, z = 0) {
+  translate([x, y, z - postHeight/2]) {
+    cube([postWaist, postHeight1, postHeight], center = true);
+    translate([0, postHeight1/2 - postHeight2/2, 0]) cube([postWidth, postHeight2, postHeight], center=true);
+    translate([0, -postHeight1/2 + postHeight2/2, 0]) cube([postWidth, postHeight2, postHeight], center=true);
+  }
+}
+
+module keyCapTop() {
+  intersection() {
+    union() {
+      if (variant == 1 || variant == 2) difference() {
+        hull() {
+          linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2, yLen - cornerRadius*2], center=true);
+          translate([0, 0, topHeight-eps]) linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2 - topHeight*2, yLen - cornerRadius*2 - topHeight*2], center=true);
+        }
+        if (variant == 2) hull() {
+          outerInset = cornerRadius + topRim + topHeight;
+          innerInset = cornerRadius + topRim + topDish + topHeight;
+          translate([0, 0, topHeight]) linear_extrude(eps) offset(cornerRadius) square([xLen - outerInset*2, yLen - outerInset*2], center=true);
+          translate([0, 0, topHeight - topDish]) linear_extrude(eps) offset(cornerRadius) square([xLen - innerInset*2, yLen - innerInset*2], center=true);
+        }
+      } else if (variant == 0) children();
     }
+    linear_extrude(100) offset(cornerRadius) square([xLen - cornerRadius*2, yLen - cornerRadius*2], center=true);
   }
 }
 
 module fullKeyCap() {
-  keyCap();
-  post(x = ctrToCtr/2, z=eps);
-  post(x = -ctrToCtr/2, z=eps);
+  keyCapBase();
+  keyCapTop();
+  post(x = ctrToCtr/2, z=-baseThickness);
+  post(x = -ctrToCtr/2, z=-baseThickness);
 }
 
-module attachmentPoint() {
-  translate([0, 0, -eps]) cylinder(r1 = supportSpacing / 2, r2 = tipContactRad, h=supportOffset + eps);
+module supportRod(pillarHeight = 0) {
+  union() {
+    cylinder(r = supportRad, h = pillarHeight);
+    translate([0, 0, pillarHeight]) cylinder(r1 = supportRad, r2 = contactRad, h = supportOffset);
+  }
 }
+module supportBlock() {
+  difference() {
+    translate([0, 0, -baseThickness - postHeight - supportOffset]) {
+      translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=-bottomRim/2+supportRad);
+      // translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen+supportRemovalTab*2, y=yLen/2, r=supportRemovalTab);
+      translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(x=xLen/2, y=yLen+supportRemovalTab*2, r=supportRemovalTab);
+      for(y = [-yLen/2 + cornerRadius - supportRad:supportSpacing:yLen/2 - cornerRadius + supportRad])
+        for(x=[xLen/2 - bottomRim/2,-xLen/2 + bottomRim/2])
+          translate([x, y, 0]) supportRod(postHeight - bottomDish);
+      for(x = [-xLen/2 + cornerRadius - supportRad:supportSpacing:xLen/2 - cornerRadius + supportRad])
+        for(y=[yLen/2 - bottomRim/2,-yLen/2 + bottomRim/2])
+          translate([x, y, 0]) supportRod(postHeight - bottomDish);
+      for(x=[ctrToCtr/2+(postWidth/2),-ctrToCtr/2+(postWidth/2),ctrToCtr/2-(postWidth/2),-ctrToCtr/2-(postWidth/2)])
+        // for(y=[-postHeight1/2,postHeight1/2])
+        for(y=[-postHeight1/2,-postHeight1/2+postHeight2,postHeight1/2-postHeight2,postHeight1/2])
+          translate([x,y,0]) supportRod();
+      for(y = [-yLen/2 + cornerRadius:supportSpacing:yLen/2 - cornerRadius])
+        for(x=[0, (xLen - ctrToCtr)/2, (xLen - ctrToCtr)/-2])
+          translate([x, y, 0]) supportRod(postHeight);
+      for(y=[-yLen/2 + cornerRadius/(sqrt(2)*2), yLen/2 - cornerRadius/(sqrt(2)*2)])
+        for(x=[-xLen/2 + cornerRadius/(sqrt(2)*2), xLen/2 - cornerRadius/(sqrt(2)*2)])
+          translate([x, y, 0]) supportRod(postHeight - bottomDish);
 
-x1 = xDim - 2*radius - chamferBottom*2;
-y1 = yDim - 2*radius - chamferBottom*2;
-
-if (supportTool) translate([0, 0, -supportHeight]) {
-  for (x = [-x1/3, x1/3]) for (y = [-y1/3, y1/3]) {
-    translate([x, y, 0]) cylinder(r = 1.25, h = supportHeight);
-    translate([x, y, supportHeight]) sphere(r=1.25);
-  }
-  cylinder(r = 1.25, h = supportHeight);
-  translate([0, 0, supportHeight]) sphere(r=1.25);
-  translate([0, 0, -supportHeight/3 + eps]) hull() {
-    linear_extrude(eps) offset(radius) square([x1, y1], center=true);
-    translate([0, 0, supportHeight/3 - eps]) linear_extrude(eps) offset(radius) square([xDim, yDim], center=true);
-  }
-} else union() {
-  fullKeyCap();
-
-  if (supportBrick) {
-
-    difference() {
-      union() {
-        translate([0, 0, -supportHeight]) hull() {
-          linear_extrude(eps) offset(radius) square([x1, y1], center=true);
-          translate([0, 0, supportHeight - supportOffset]) linear_extrude(eps) offset(radius) square([x1, yDim + 2.5], center=true);
-        }
-      }
-
-      for (xC = [-ctrToCtr/2, ctrToCtr/2]) {
-        translate([xC, 0, -l1 - supportOffset]) cylinder(r=h1 * .65, h = l1 + supportOffset + eps);
-      }
-
-      cylinder(r = 1.5, h = 25, center = true);
-      for (x = [-x1/3, x1/3]) for (y = [-y1/3, y1/3]) {
-          translate([x, y, 0]) cylinder(r = 1.5, h = 25, center = true);
-      }
     }
-
-    //Attachment points
-    union() {
-      ax = xDim - .75 - 2*radius;
-      ay = yDim - .75 - 2*radius;
-
-      for(x=[-d1/2, d1/2]) for (y=[-h1/2, h1/2, h1/2-h2, -h1/2+h2]) for(xC=[-ctrToCtr/2, ctrToCtr/2]) translate([x +xC, y, -l1 - supportOffset]) attachmentPoint();
-
-      for(x=[-ax/2+supportSpacing:supportSpacing:ax/2-supportSpacing]) for(y=[-ay/2,-h1*.75,h1*.75,ay/2]) translate([x, y, -supportOffset]) attachmentPoint();
-      for(x=[-ax/5:supportSpacing:ax/5]) for(y=[-ay/3 + 1,ay/3 + 1,-ay/3 - 1,ay/3 - 1]) translate([x, y, -supportOffset]) attachmentPoint();
-      for(x=[-ax/2,ax/2]) for(y=[-ay/2:supportSpacing:ay/2]) translate([x, y, -supportOffset]) attachmentPoint();
-    }
+    cornerInset = cornerRadius + bottomDish + supportToolPostRad;
+    for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
+      for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset]) translate([x,y,-baseThickness - postHeight - supportOffset - supportHeight - eps]) cylinder(r1 = supportToolPostRad + supportHeight/2, r2 = supportToolPostRad + .25, h=supportHeight + eps*2, center=false);
   }
 }
 
-/* Support Removal Tool */
-// !difference() {
-//   cube([unit + 12, unit * 1.5, 12], center=true);
-//   translate([0, 0, 4]) cube([unit + .5, unit *1.5 + eps, 12], center=true);
-// }
+module supportTool() {
+  translate([0, 0, -supportHeight -baseThickness -postHeight -supportOffset*2]) {
+    cornerInset = cornerRadius + bottomDish + supportToolPostRad;
+    for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
+      for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset])
+      translate([x,y,0]) {
+        cylinder(r = supportToolPostRad, h=supportHeight*2 + supportOffset*2, center=false);
+        translate([0, 0, supportHeight*2 + supportOffset*2]) sphere(r=supportToolPostRad);
+      }
+
+  translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=supportRad/2);
+  }
+}
+
+fullKeyCap();
+if (support) supportBlock();
+
+if (supportTool) !supportTool();
