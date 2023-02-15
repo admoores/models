@@ -1,19 +1,95 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "1u": {
+        "1x1u - Dish - 0Deg": {
+            "slantAngle": "0",
+            "slantDir": "1",
             "support": "true",
-            "supportTool": "true",
+            "supportTool": "false",
             "variant": "2",
             "xUnits": "1",
             "yUnits": "1"
         },
-        "1.5u": {
+        "1x1u - Dish - 2.5Deg": {
+            "slantAngle": "2.5",
+            "slantDir": "1",
             "support": "true",
             "supportTool": "false",
             "variant": "2",
+            "xUnits": "1",
+            "yUnits": "1"
+        },
+        "1x1u - Dish - 5Deg": {
+            "slantAngle": "5",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "2",
+            "xUnits": "1",
+            "yUnits": "1"
+        },
+        "1x1u - Flat - 0Deg": {
+            "slantAngle": "0",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "1",
+            "xUnits": "1",
+            "yUnits": "1"
+        },
+        "1x1u - Flat - 2.5Deg": {
+            "slantAngle": "2.5",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "1",
+            "xUnits": "1",
+            "yUnits": "1"
+        },
+        "1x1u - Flat - 5Deg": {
+            "slantAngle": "5",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "1",
+            "xUnits": "1",
+            "yUnits": "1"
+        },
+        "1x1.5u - Flat - 0Deg": {
+            "slantAngle": "0",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "1",
             "xUnits": "1.5",
             "yUnits": "1"
+        },
+        "1x1.5u - Flat - 2.5Deg": {
+            "slantAngle": "2.5",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "1",
+            "xUnits": "1.5",
+            "yUnits": "1"
+        },
+        "1x1.5u - Flat - 5Deg": {
+            "slantAngle": "5",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "false",
+            "variant": "1",
+            "xUnits": "1.5",
+            "yUnits": "1"
+        },
+        "Support Remover": {
+            "slantAngle": "2.5",
+            "slantDir": "1",
+            "support": "true",
+            "supportTool": "true",
+            "variant": "2",
+            "xUnits": "0.98999999999999999",
+            "yUnits": "0.98999999999999999"
         }
     }
 }
