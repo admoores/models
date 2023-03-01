@@ -1,13 +1,23 @@
 include <../_constants.scad>
 
+/* [Dimensions] */
 // KB units wide
 xUnits = 0.99;
 // KB units tall
 yUnits = 0.99; 
+
+/* [Support Options] */
 // Include integrated support block
 support = true;
+// Create support tool (Key will not be rendered)
 supportTool = false;
+
+/* [Top Options] */
 variant = 2; // [0: Custom Child, 1: Basic, 2: Basic Dished]
+
+/* [Key Slant] */
+slantAngle = 2.5;
+slantDir = 1; // [0: x, 1: y]
 
 /* Post Dimensions */
 postWidth = 0 + 1.25;
@@ -19,28 +29,28 @@ ctrToCtr = dGap + postWidth;
 postHeight1 = 0 + 2.95;
 postHeight2 = 0 + 0.725;
 
-postHeight = 0 + 3;
+postHeight = 0 + 3.5;
 
 /*Keycap Dimensions*/
 xUnit = 18 + 0;
 yUnit = 17 + 0;
 
-cornerRadius = 0 + 3;
-keySpacing = 0 + .5;
-bottomDish = 0 + 1.5;
+cornerRadius = 0 + 5;
+keySpacing = 0 + 1;
+bottomDish = 0 + 2;
 bottomRim = 0 + 0.5;
 
-topDish = 0 + 0.5;
-topRim = 0 + 1;
+topDish = 0 + .75;
+topRim = 0 + .5;
 
-baseThickness = 0 + 2;
-topHeight = 0 + 2;
+baseThickness = 0 + 2.5;
+topHeight = 0 + 1;
 
 supportHeight = 0 + 2.5;
 supportOffset = 0 + 1.5;
 supportRad = 0 + .6;
-supportSpacing = 0 + 2;
-supportRemovalTab = 2.5;
+supportSpacing = 0 + 2.4;
+supportRemovalTab = 0 + 2.5;
 contactRad = 0 + .2;
 
 supportToolPostRad = 0 + 1.5;
@@ -81,21 +91,28 @@ module post(x = 0, y = 0, z = 0) {
 
 module keyCapTop() {
   intersection() {
-    union() {
-      if (variant == 1 || variant == 2) difference() {
-        hull() {
-          linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2, yLen - cornerRadius*2], center=true);
-          translate([0, 0, topHeight-eps]) linear_extrude(eps) offset(cornerRadius) square([xLen - cornerRadius*2 - topHeight*2, yLen - cornerRadius*2 - topHeight*2], center=true);
-        }
-        if (variant == 2) hull() {
-          outerInset = cornerRadius + topRim + topHeight;
-          innerInset = cornerRadius + topRim + topDish + topHeight;
-          translate([0, 0, topHeight]) linear_extrude(eps) offset(cornerRadius) square([xLen - outerInset*2, yLen - outerInset*2], center=true);
-          translate([0, 0, topHeight - topDish]) linear_extrude(eps) offset(cornerRadius) square([xLen - innerInset*2, yLen - innerInset*2], center=true);
-        }
-      } else if (variant == 0) children();
+    slantLen = (slantDir == 0 ? xLen : yLen) * (1/cos(slantAngle));
+    translate([0, 0, (slantLen * sin(slantAngle))/2])
+      rotate([slantDir == 1 ? slantAngle : 0, slantDir == 0 ? slantAngle : 0, 0])
+        scale([slantDir == 0 ? 1/cos(slantAngle) : 1, slantDir == 1 ? 1/cos(slantAngle) : 1, 1])
+          union() {
+            if (variant == 1 || variant == 2) union() {
+              translate([0, 0, -slantLen/2]) cube([xLen, yLen, slantLen], center=true);
+              difference() {
+                hull() {
+                  linear_extrude(eps) radiusRectangle();
+                  translate([0, 0, topHeight-eps]) linear_extrude(eps) radiusRectangle(x=xLen-topHeight*2, y=yLen-topHeight*2);
+                }
+                if (variant == 2) hull() {
+                  outerInset = topRim + topHeight;
+                  innerInset = topRim + topDish + topHeight;
+                  translate([0, 0, topHeight]) linear_extrude(eps) radiusRectangle(x=xLen-outerInset*2, y=yLen-outerInset*2);
+                  translate([0, 0, topHeight - topDish]) linear_extrude(eps) radiusRectangle(x=xLen-innerInset*2, y=yLen-innerInset*2);
+                }
+              }
+            } else if (variant == 0) children();
     }
-    linear_extrude(100) offset(cornerRadius) square([xLen - cornerRadius*2, yLen - cornerRadius*2], center=true);
+    translate([0, 0, -eps]) linear_extrude(100) radiusRectangle();
   }
 }
 
@@ -125,35 +142,29 @@ module supportBlock() {
         for(y=[yLen/2 - bottomRim/2,-yLen/2 + bottomRim/2])
           translate([x, y, 0]) supportRod(postHeight - bottomDish);
       for(x=[ctrToCtr/2+(postWidth/2),-ctrToCtr/2+(postWidth/2),ctrToCtr/2-(postWidth/2),-ctrToCtr/2-(postWidth/2)])
-        // for(y=[-postHeight1/2,postHeight1/2])
         for(y=[-postHeight1/2,-postHeight1/2+postHeight2,postHeight1/2-postHeight2,postHeight1/2])
           translate([x,y,0]) supportRod();
-      for(y = [-yLen/2 + cornerRadius:supportSpacing:yLen/2 - cornerRadius])
-        for(x=[0, (xLen - ctrToCtr)/2, (xLen - ctrToCtr)/-2])
-          translate([x, y, 0]) supportRod(postHeight);
+      for(x = [supportSpacing/2:supportSpacing:xLen/2 - bottomDish/2 - supportSpacing])
+        for(y=[supportSpacing/2:supportSpacing:yLen/2 - bottomDish/2 - supportSpacing])
+          for(iy=[-1,1]) for(ix=[-1,1])
+            if (y >= postHeight1/2+supportSpacing/2 || x>=ctrToCtr/2+supportSpacing/2) 
+              translate([x*ix, y*iy, 0]) supportRod(postHeight);
       for(y=[-yLen/2 + cornerRadius/(sqrt(2)*2), yLen/2 - cornerRadius/(sqrt(2)*2)])
         for(x=[-xLen/2 + cornerRadius/(sqrt(2)*2), xLen/2 - cornerRadius/(sqrt(2)*2)])
           translate([x, y, 0]) supportRod(postHeight - bottomDish);
 
     }
     cornerInset = cornerRadius + bottomDish + supportToolPostRad;
-    for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
-      for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset]) translate([x,y,-baseThickness - postHeight - supportOffset - supportHeight - eps]) cylinder(r1 = supportToolPostRad + supportHeight/2, r2 = supportToolPostRad + .25, h=supportHeight + eps*2, center=false);
+    cylinder(r = supportToolPostRad, h = 25, center=true);
   }
 }
 
 module supportTool() {
-  translate([0, 0, -supportHeight -baseThickness -postHeight -supportOffset*2]) {
-    cornerInset = cornerRadius + bottomDish + supportToolPostRad;
-    for (y=[(yLen - ctrToCtr)/2, (yLen - ctrToCtr)/-2])
-      for (x=[xLen/2 - cornerInset, -xLen/2 + cornerInset])
-      translate([x,y,0]) {
-        cylinder(r = supportToolPostRad, h=supportHeight*2 + supportOffset*2, center=false);
-        translate([0, 0, supportHeight*2 + supportOffset*2]) sphere(r=supportToolPostRad);
-      }
-
-  translate([0, 0, -supportHeight]) linear_extrude(supportHeight) radiusRectangle(offset=supportRad/2);
-  }
+  rTol = supportToolPostRad-.25;
+  hTot = supportHeight + supportOffset + postHeight + 2.5;
+  cylinder(r1 = 15/2, r2 = 17.5/2, h = supportHeight);
+  cylinder(r = rTol, h = hTot);
+  translate([0, 0, hTot]) cylinder(r1 = rTol, r2 = rTol - .25, h = .25);
 }
 
 fullKeyCap();
