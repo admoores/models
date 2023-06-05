@@ -1,6 +1,6 @@
 include <../_constants.scad>
 
-part = 2; // [0: Lid, 1: Body, 2: Extractor Bracket]
+part = 2; // [0: Lid, 1: Body, 2: Extractor Bracket, 3: Split Lid, 4: Lid Spacer]
 
 // base
 componentSpacing = 5 * 1;
@@ -9,22 +9,22 @@ panelThickness = 2 * 1;
 boxDimensions = [120, 100, 25] * 1;
 totalHeight = boxDimensions.z - panelThickness;
 
-legThickness = 6 * 1;
-legAddedHeight = 45 * 1;
+legThickness = 8 * 1;
+legAddedHeight = 40 * 1;
 legAngle = 30 * 1;
 
 speakerWireHole = 3 * 1;
 
 // M3 Screw
 m3_threadRad = 1.45 * 1;
-m3_headRad = 2.2 * 1;
+m3_headRad = 3 * 1;
 
 // speaker
 sp_holeSpacing = (41.5 + 37.8) / 2;
 sp_screwRad = 2 / 2;
 
 // audio extracto
-as_dimensions = [60.3, 52.4, 14.6] * 1;
+as_dimensions = [60.3, 52.4, 14.25] * 1;
 
 // power supply
 ps_tabSize = 7 * 1;
@@ -104,11 +104,11 @@ module mainBox() {
   }
 }
 
-module lid() {
+module lid(legs = true, holes = true) {
   difference() {
     union() {
       for (im = [0, 1]) mirror([im, 0, 0]) translate([boxDimensions.x/2, -boxDimensions.y/4, 0]) {
-        rotate([0, legAngle, 0]) difference() {
+        if(legs) rotate([0, legAngle, 0]) difference() {
           cube([legThickness, boxDimensions.y/2, boxDimensions.z + legAddedHeight*1.5]);
           for(iy = [-1, 1]*sp_holeSpacing/2) for(iz = [-1, 1]*sp_holeSpacing/2) translate([-legThickness/2, boxDimensions.y/4 + iy, boxDimensions.z/2 + legAddedHeight/2+ iz]) rotate([0, 90, 0]) cylinder(r = sp_screwRad, h=legThickness * 2);
 
@@ -116,7 +116,7 @@ module lid() {
           // #rotate([0, -legAngle, 0]) translate([-boxDimensions.x, -boxDimensions.y, boxDimensions.z + legAddedHeight]) cube(boxDimensions*2);
           // TEMPORARY
         }
-        intersection() {
+        if (legs) intersection() {
           translate([0, boxDimensions.y/2, 0]) rotate([90, 0, 0]) cylinder(r = legThickness, h=boxDimensions.y/2);
           translate([0, 0, -50 + panelThickness]) cube([100, 100, 100], center = true);
         }
@@ -125,10 +125,10 @@ module lid() {
       cube([boxDimensions.x, boxDimensions.y, panelThickness*2], center=true);
     }
     for(ix = [-1, 1] * (boxDimensions.x/2 - panelThickness -m3_threadRad))  {
-      translate([ix * .75, 0, 0]) cylinder(r = speakerWireHole, h = panelThickness*3, center=true);
+      if (holes) translate([ix * .75, 0, 0]) cylinder(r = speakerWireHole, h = panelThickness*3, center=true);
       for(iy = [-1, 1] * (boxDimensions.y/4 - panelThickness -m3_threadRad)) translate([ix, iy, 0]) {
         cylinder(r = m3_threadRad, h=boxDimensions.z, center=true);
-        translate([0, 0, -panelThickness/2 - eps]) cylinder(r = m3_headRad, h = panelThickness+eps, center=true);
+        // translate([0, 0, -panelThickness/2 - eps]) cylinder(r = m3_headRad, h = panelThickness+eps, center=true);
       }
     }
     translate([-boxDimensions.x, -boxDimensions.y, boxDimensions.z + legAddedHeight]) cube(boxDimensions*2);
@@ -143,13 +143,13 @@ module extractorBracket() {
   difference() {
     union() {
       cube([as_dimensions.x + panelThickness*2, bracketWidth, as_dimensions.z + panelThickness], center = true);
-      for(ix = [-1, 1] * (as_dimensions.x + panelThickness*2 + m3_threadRad)/2) translate([ix, 0, (as_dimensions.z + panelThickness)/2 - panelThickness]) cylinder(r = bracketWidth/2, h = panelThickness);
+      for(ix = [-1, 1] * (as_dimensions.x + panelThickness*2)/2) translate([ix, 0, -(as_dimensions.z+panelThickness)/2]) cylinder(r = bracketWidth/2, h = as_dimensions.z + panelThickness);
     }
     translate([0, 0, panelThickness/2 + eps]) cube(as_dimensions, center = true);
 
     for(ix = [-1, 1] * (as_dimensions.x + panelThickness*2 + m3_threadRad)/2) translate([ix, 0, 0]) {
       cylinder(r = m3_threadRad, h=as_dimensions.z + panelThickness + eps*2, center=true);
-      translate([0, 0, -panelThickness/2 - eps]) cylinder(r = m3_headRad, h=as_dimensions.z + eps, center=true);
+      // translate([0, 0, -panelThickness/2 - eps]) cylinder(r = m3_headRad, h=as_dimensions.z + eps, center=true);
     }
   }
 }
@@ -161,4 +161,16 @@ if (part == 0) {
   frontPanel();
 } else if (part == 2) {
   extractorBracket();
-}
+} else if (part == 3) {
+  intersection() {
+    lid();
+    translate([0, boxDimensions.y/4 + speakerWireHole, 0]) cube([boxDimensions.x*2, boxDimensions.y/2, 200], center=true);
+  }
+} else if (part == 4) {
+  // difference() {
+  //   lid(false);
+  //   translate([0, boxDimensions.y * (3/12), 0]) cube([boxDimensions.x * (5/6), boxDimensions.y / 3, 50], center=true);
+  //   translate([0, boxDimensions.y * (-3/12), 0]) cube([boxDimensions.x * (5/6), boxDimensions.y / 3, 50], center=true);
+  // }
+  lid(false, false);
+} 

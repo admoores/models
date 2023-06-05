@@ -22,6 +22,8 @@ retainerCatch = 0;
 
 hingeWidth = 6;
 hingePinRad = 1;
+hingePinHeadRad = 2;
+hingePinHeadDepth = 2.5;
 
 magnetRad = 2.5;
 magnetDepth = 2.5;
@@ -48,6 +50,8 @@ module switchCoverBody(supports = false) {
           translate([0, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingeWidth/2, h=holeHeight + faceRim*2);
         }
         translate([-eps, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingePinRad, h=holeHeight + faceRim*2 + eps * 2);
+        translate([holeHeight + faceRim*2 - hingePinHeadDepth + eps, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingePinHeadRad, h=hingePinHeadDepth);
+        translate([-eps, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingePinHeadRad, h=hingePinHeadDepth);
         translate([(holeHeight + faceRim * 2) / 3, -eps, 0]) cube([(holeHeight + faceRim * 2) / 3, hingeWidth + eps * 2, hingeWidth + eps]);
       }
     }
@@ -55,6 +59,10 @@ module switchCoverBody(supports = false) {
     
     translate([-(holeHeight + faceRim*2)/2 + magnetRad + faceRim, -(holeWidth + faceRim*2)/2 + faceRim + magnetRad, faceThickness - magnetDepth + eps]) cylinder(r = magnetRad, h = magnetDepth);
     translate([(holeHeight + faceRim*2)/2 - magnetRad - faceRim, -(holeWidth + faceRim*2)/2 + faceRim + magnetRad, faceThickness - magnetDepth + eps]) cylinder(r = magnetRad, h = magnetDepth);
+
+    for (ix=[1, -1] * (holeHeight/2 * .75)) {
+      translate([ix, -holeWidth/2 + 9.5, -15]) rotate([35, 0, 0]) cylinder(r = hingePinRad, h=18);
+    }
   }
 
   if (supports) {
@@ -83,8 +91,8 @@ module switchLid() {
     intersection() {
       difference() {
         union() {
-          cube([holeHeight + faceRim * 2, hingeWidth, hingeWidth/2]);
-          translate([0, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingeWidth/2, h=holeHeight + faceRim*2);
+          translate([0, hingePlay/2, 0]) cube([holeHeight + faceRim * 2, hingeWidth - hingePlay, hingeWidth/2]);
+          translate([0, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingeWidth/2 - hingePlay/2, h=holeHeight + faceRim*2);
         }
         translate([-eps, hingeWidth/2, hingeWidth/2]) rotate([0, 90, 0]) cylinder(r = hingePinRad, h=holeHeight + faceRim*2 + eps * 2);
       }
@@ -108,6 +116,6 @@ module switchLid() {
   }
 }
 
-switchCoverBody();
+// switchCoverBody();
 
-// switchLid();
+switchLid();
