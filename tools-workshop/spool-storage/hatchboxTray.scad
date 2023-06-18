@@ -4,7 +4,7 @@ hDiv = 4;
 vDiv = 2;
 
 vTolerance = .1 * (vDiv - 1);
-trayHeight = (height / vDiv) - .1;
+trayHeight = (height / vDiv) - vTolerance;
 
 
 intersection() {
