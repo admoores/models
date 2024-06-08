@@ -19,7 +19,7 @@ handleDiam = 18;
 difference() {
   cylinder(r1 = (outerDiam / 2) * footRatio, r2 = outerDiam / 2, h = spoutDepth + baseThickness + coneLift);
 
-  translate([0, 0, baseThickness + spoutDepth + coneLift]) rotate([0, 90, handleAngle]) cylinder(r = handleDiam / 2, h = 100);
+  #translate([0, 0, baseThickness + spoutDepth + coneLift]) rotate([0, 90, handleAngle]) cylinder(r = handleDiam / 2, h = 100);
 
   translate([0, 0, spoutDepth + baseThickness]) cylinder(r1 = 0, r2 = outerDiam / 2, h = coneLift);
 
